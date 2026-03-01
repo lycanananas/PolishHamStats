@@ -1,0 +1,61 @@
+{% load i18n %}
+{% load license_helper %}
+{% include "html_start.html" %}
+
+<div class="container">
+    <h1 class="text-center">{% translate "Lista wydanych pozwoleń" %}</h1>
+    <h2 class="text-center">{% translate "Znaleziono: " %} {{ license_count }} {% translate "pozwoleń" %}</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+              <th scope="col">{% translate "Pozwolenie" %}</th>
+              <th scope="col">{% translate "Znak" %}</th>
+              <th scope="col">{% translate "Data ważności" %}</th>
+              <th scope="col">{% translate "Kategoria" %}</th>
+              <th scope="col">{% translate "Moc" %}</th>
+              <th scope="col">{% translate "Typ" %}</th>
+            </tr>
+          </thead>        
+        <tbody>
+        {% for license in page_object %}
+            <tr>
+                <th scope="row"><a href="/license/{{ license.license|license_slug }}">{{ license.license }}</a></th>
+                <td><a href="/callsign/{{ license.assigned_callsign.callsign }}">{{ license.assigned_callsign.callsign }}</a></td>
+                <td>{{ license.expiration_date }}</td>
+                <td>{{ license.category|license_category }}</td>
+                <td>{{ license.power }}W</td>
+                <td>{{ license.type|license_type }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <nav>
+        <ul class="pagination">
+            {% if page_object.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">{% translate "Pierwsza" %}</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_object.previous_page_number }}">{% translate "Poprzednia" %}</a></li>
+            {% else %}
+            <li class="page-item disabled"><a class="page-link" href="?page=1">{% translate "Pierwsza" %}</a></li>
+            <li class="page-item disabled"><a class="page-link" href="?page=1">{% translate "Poprzednia" %}</a></li>
+            {% endif %}
+            {% if page_object.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_object.next_page_number }}">{% translate "Następna" %}</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_object.paginator.num_pages }}">{% translate "Ostatnia" %}</a></li>
+            {% else %}
+            <li class="page-item disabled"><a class="page-link" href="?page={{ page_object.paginator.num_pages }}">{% translate "Następna" %}</a></li>
+            <li class="page-item disabled"><a class="page-link" href="?page={{ page_object.paginator.num_pages }}">{% translate "Ostatnia" %}</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <p>{% translate "Strona" %} {{ page_object.number }} {% translate "z" %} {{ page_object.paginator.num_pages }}</p>
+    <form class="row g-3" method="get">
+        <div class="col-auto">
+            <input type="text" class="form-control" id="page" name="page">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">{% translate "Przejdź do strony" %}</button>
+        </div>
+    </form>
+</div>
+
+{% include "html_end.html" %}

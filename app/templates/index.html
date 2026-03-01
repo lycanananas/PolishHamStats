@@ -1,0 +1,55 @@
+{% load i18n %}
+{% include "html_start.html" %}
+<div class="container w-50">
+    <h1 class="text-center">{% translate "nazwastrony" %}</h1>
+    {% include "index_about_pl.html" %}
+</div>
+<div class="container w-50">
+    <div class="row align-items-start">
+        <div class="col">
+            <form class="border p-3" id="formCallsign">
+                <div class="mb-3">
+                    <label for="callsign" class="form-label">{% translate "Wyszukaj znak" %}</label>
+                    <input type="text" class="form-control" id="callsign">
+                    <div id="callsignHelp" class="form-text">{% translate "Wielkość liter nie ma znaczenia!" %}</div>
+                </div>
+                <button type="submit" class="btn btn-primary">{% translate "Szukaj" %}</button>
+            </form>
+        </div>
+        <div class="col">
+            <form class="border p-3" id="formLicense">
+                <div class="mb-3">
+                    <label for="license" class="form-label">{% translate "Wyszukaj pozwolenie" %}</label>
+                    <input type="text" class="form-control" id="license">
+                    <div id="licenseHelp" class="form-text">{% translate "Wielkość liter nie ma znaczenia!" %}</div>
+                </div>
+                <button type="submit" class="btn btn-primary">{% translate "Szukaj" %}</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    (() => {
+        'use strict'
+        const formCallsign = document.getElementById('formCallsign');
+        const formLicense = document.getElementById('formLicense');
+
+        formCallsign.addEventListener('submit', event => {
+            event.preventDefault()
+            event.stopPropagation()
+            const callsign = document.getElementById('callsign').value;
+            window.location.href = '/callsign/' + callsign;
+        }, false)
+
+        formLicense.addEventListener('submit', event => {
+            event.preventDefault()
+            event.stopPropagation()
+            const license = document.getElementById('license').value.replaceAll('/', '-');
+            window.location.href = '/license/' + license;
+        }, false)
+    })()
+
+</script>
+
+{% include "html_end.html" %}

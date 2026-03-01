@@ -1,0 +1,31 @@
+{% load i18n %}
+{% include "html_start.html" %}
+<div class="container w-50">
+    <h1 class="text-center">{{ license }}</h1>
+    {% if current_license %}
+    <table class="table table-striped">
+        <tbody>
+            {% if is_active %}
+            <tr>
+                <th scope="row">{% translate "Status" %}</th>
+                <td><span class="text-success fw-bold">{% translate "Aktywne" %}</span></td>
+            </tr>
+            {% else %}
+            <tr>
+                <th scope="row">{% translate "Status" %}</th>
+                <td><span class="text-danger fw-bold">{% translate "Nie aktywne" %}</span></td>
+            </tr>
+            {% endif %}
+            <tr>
+                <th scope="row">{% translate "Przypisany znak" %}</th>
+                <td><a href="/callsign/{{ callsign }}">{{ callsign }}</a></td>
+            </tr>
+            {% include "license_details_rows.html" with license_data=current_license %}
+        </tbody>
+    </table>
+    {% else %}
+    <h2 class="text-center text-danger">{% translate "Pozwolenia nie ma w bazie UKE oraz projektu" %}</h2>
+    {% endif %}
+</div>
+
+{% include "html_end.html" %}

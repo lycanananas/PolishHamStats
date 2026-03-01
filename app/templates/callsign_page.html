@@ -1,0 +1,269 @@
+{% load i18n %}
+{% load license_helper %}
+{% include "html_start.html" %}
+
+<div class="container">
+    {% if is_filter_error %}
+    <div class="alert alert-danger" role="alert">
+        {% translate "Wprowadzony filtr jest błędny!" %}
+    </div>
+    {% endif %}
+    <h1 class="text-center">{% translate "Lista znaków w bazie" %}</h1>
+    <p class="text-center">
+        {% translate "Znak może być zajęty bądź wolny. Baza UKE ma opóźnienie do nawet 60 dni!" %}<br/>
+        {% translate "Zapamiętane kategorie i moce dla znaków są wartościami z ostatniego pozwolenia!" %}
+    </p>
+    <h2 class="text-center">{% translate "Filtry" %}</h2>
+    <div class="accordion" id="accordionFilters">
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button id="filterBasicButton" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#filterBasic" aria-expanded="false" aria-controls="filterBasic">
+                {% translate "Filtr - Prosty" %}
+            </button>
+            </h2>
+            <div id="filterBasic" class="accordion-collapse collapse" data-bs-parent="#accordionFilters">
+                <div class="accordion-body">
+                    <div class="container p-2">
+                        <h2>{% translate "Prefix" %}</h2>
+                        {% with 'SP SQ SO SN HF 3Z SR' as list %}
+                        {% for prefix in list.split %}
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" value="1" name="p{{ prefix }}" id="prefix{{ prefix }}" checked>
+                            <label class="form-check-label" for="prefix{{ prefix }}">{{ prefix }}</label>
+                        </div>
+                        {% endfor %}
+                        {% endwith %}
+                    </div>
+                    <div class="container p-2">
+                        <h2>{% translate "Okręg" %}</h2>
+                        {% with '0 1 2 3 4 5 6 7 8 9' as list %}
+                        {% for okreg in list.split %}
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" value="1" name="o{{ okreg }}" id="okreg{{ okreg }}" checked>
+                            <label class="form-check-label" for="okreg{{ okreg }}">{{ okreg }}</label>
+                        </div>
+                        {% endfor %}
+                        {% endwith %}
+                    </div>
+                    <div class="container p-2">
+                        <h2>{% translate "Suffix" %}</h2>
+                        <input type="text" class="form-control" id="suffix" name="s">
+                    </div>
+                    <div class="container p-2">
+                        <button id="filterBasicSend" type="button" class="btn btn-primary">{% translate "Filtruj!" %}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+            <button id="filterRegexButton" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#filterRegex" aria-expanded="false" aria-controls="filterRegex">
+                {% translate "Filtr - Zawansowany (Regex)" %}
+            </button>
+            </h2>
+            <div id="filterRegex" class="accordion-collapse collapse" data-bs-parent="#accordionFilters">
+            <div class="accordion-body">
+                <div class="container p-2">
+                    <h2>{% translate "Wyrażenie regularne" %}</h2>
+                    <p>{% translate "Ten filtr wykonuje wyrażenie regularne na kolumnie znak." %}</p>
+                    <p>
+                        {% translate "Przykłady:" %}<br/>
+                        <table class="table table-striped">
+                            <tr>
+                                <th scope="row" class="font-monospace">^(sp5|sq5)</th>
+                                <td>{% translate "Znaki z prefixem SP5 lub SQ5." %}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="font-monospace">fox$</th>
+                                <td>{% translate "Znaki z końcówką FOX." %}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="font-monospace">^[a-zA-Z0-9]{8}$</th>
+                                <td>{% translate "Znaki o długości dokładnie 8 znaków." %}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="font-monospace">^SR[0-9]{1}[a-zA-Z0-9]{4}$</th>
+                                <td>{% translate "Znaki z prefixem SR z dowolnego okręgu z suffixem 4 znakowym." %}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="font-monospace">^(sp|sq|so|sn|sr|hf|3z)[0-9]{1}[a-zA-Z0-9]{4}$</th>
+                                <td>{% translate "Wszystkie znaki z 4 literowym suffixem." %}</td>
+                            </tr>
+                        </table>
+
+                    </p>
+                    <input id="filterRegexInput" type="text" class="form-control" id="regex" name="s">
+                </div>
+                <div class="container p-2">
+                    <button id="filterRegexSend" type="button" class="btn btn-primary">{% translate "Filtruj!" %}</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <h2 class="text-center p-2">{% translate "Znaleziono: " %} {{ callsign_count }} {% translate "znaków" %}</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+              <th scope="col">{% translate "Znak" %}</th>
+              <th scope="col">{% translate "Pozwolenia" %}</th>
+              <th scope="col">{% translate "Ważny" %}</th>
+              <th scope="col">{% translate "Data ważności" %}</th>
+              <th scope="col">{% translate "Kategoria" %}</th>
+              <th scope="col">{% translate "Moc" %}</th>
+              <th scope="col">{% translate "Typ" %}</th>
+            </tr>
+          </thead>        
+        <tbody>
+        {% for callsign in callsigns %}
+            <tr>
+                <th scope="row"><a href="/callsign/{{ callsign.callsign }}">{{ callsign.callsign }}</a></th>
+                <td>
+                    <ul class="list-group">
+                    {% for license in callsign.licenses %}
+                        <li class="list-group-item"><a href="/license/{{ license.license_slug }}">{{ license.license }}</a></li>
+                    {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    {% if callsign.is_active %}
+                    <span class="text-center text-success fw-bold">{% translate "Zajęty" %}</span>
+                    {% else %}
+                    <span class="text-center text-danger fw-bold">{% translate "Nie aktywny" %}</span>
+                    {% endif %}
+                </td>
+                <td>{{ callsign.expiration_date }}</td>
+                <td>{{ callsign.category|license_category }}</td>
+                <td>{{ callsign.power }}W</td>
+                <td>{{ callsign.type|license_type }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <nav>
+        <ul class="pagination">
+            {% if page_object.has_previous %}
+            <li class="page-item"><a class="page-link" href="{% querystring page=1 %}">{% translate "Pierwsza" %}</a></li>
+            <li class="page-item"><a class="page-link" href="{% querystring page=page_object.previous_page_number %}">{% translate "Poprzednia" %}</a></li>
+            {% else %}
+            <li class="page-item disabled"><a class="page-link" href="{% querystring page=1 %}">{% translate "Pierwsza" %}</a></li>
+            <li class="page-item disabled"><a class="page-link" href="{% querystring page=1 %}">{% translate "Poprzednia" %}</a></li>
+            {% endif %}
+            {% if page_object.has_next %}
+            <li class="page-item"><a class="page-link" href="{% querystring page=page_object.next_page_number %}">{% translate "Następna" %}</a></li>
+            <li class="page-item"><a class="page-link" href="{% querystring page=page_object.paginator.num_pages %}">{% translate "Ostatnia" %}</a></li>
+            {% else %}
+            <li class="page-item disabled"><a class="page-link" href="{% querystring page=page_object.paginator.num_pages %}">{% translate "Następna" %}</a></li>
+            <li class="page-item disabled"><a class="page-link" href="{% querystring page=page_object.paginator.num_pages %}">{% translate "Ostatnia" %}</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <p>{% translate "Strona" %} {{ page_object.number }} {% translate "z" %} {{ page_object.paginator.num_pages }}</p>
+    <form class="row g-3" method="get">
+        <div class="col-auto">
+            <input type="text" class="form-control" id="page" name="page">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">{% translate "Przejdź do strony" %}</button>
+        </div>
+    </form>
+</div>
+<script>
+    const prefixes = ['SP', 'SQ', 'SO', 'SN', 'HF', '3Z', 'SR']
+    const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+
+    function openFilterAccordion(button, body) {
+        button.classList.remove('collapsed');
+        button.setAttribute('aria-expanded','true')
+        body.classList.add('show')
+    }
+
+    function filterRegexEvent(event) {
+        const regex = window.btoa(document.getElementById('filterRegexInput').value);
+        window.location.search = `?filter_type=regex&regex=${encodeURIComponent(regex)}`;
+    }
+    
+    function filterBasicEvent(event) {
+        const selectedPrefixes = [];
+        const selectedDigits = [];
+
+        prefixes.forEach((prefix) => {
+            const checkbox = document.getElementById(`prefix${prefix}`).checked;
+            if (checkbox) {
+                selectedPrefixes.push(prefix);
+            }
+        });
+        const queryPrefix = selectedPrefixes.join('|');
+
+        digits.forEach((digit) => {
+            const checkbox = document.getElementById(`okreg${digit}`).checked;
+            if (checkbox) {
+                selectedDigits.push(digit);
+            }
+        });
+        const queryDigit = selectedDigits.join('|');
+
+        const sufix = document.getElementById('suffix').value;
+
+        window.location.search = `?filter_type=basic&prefixes=${encodeURIComponent(queryPrefix)}&digits=${encodeURIComponent(queryDigit)}&suffix=${encodeURIComponent(sufix)}`;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(document.location.search);
+        const filter_type = params.get('filter_type');
+        switch (filter_type) {
+            case "basic":
+                const filterBasicButton = document.getElementById('filterBasicButton');
+                const filterBasic = document.getElementById('filterBasic');
+                openFilterAccordion(filterBasicButton, filterBasic);
+
+                const getPrefixes = params.get('prefixes');
+                const getDigits = params.get('digits');
+                const getSuffix = params.get('suffix');
+
+                if(getPrefixes){
+                    const getPrefixesArray = getPrefixes.split('|');
+                    prefixes.forEach((prefix) => {
+                        if(!getPrefixesArray.includes(prefix)) {
+                            const checkbox = document.getElementById(`prefix${prefix}`);
+                            checkbox.checked = false;
+                        }
+                    });
+                }
+                
+                if(getDigits){
+                    const getDigitsArray = getDigits.split('|');
+                    digits.forEach((digit) => {
+                        if(!getDigitsArray.includes(digit)) {
+                            const checkbox = document.getElementById(`okreg${digit}`);
+                            checkbox.checked = false;
+                        }
+                    });
+                }
+                
+                if (getSuffix) {
+                    const textBox = document.getElementById('suffix');
+                    textBox.value = getSuffix;
+                }
+
+            break;
+            case "regex":
+                const filterRegexButton = document.getElementById('filterRegexButton');
+                const filterRegex = document.getElementById('filterRegex');
+                openFilterAccordion(filterRegexButton, filterRegex);
+
+                let regex = params.get('regex');
+                regex = regex === null ? "" : window.atob(regex);
+                document.getElementById('filterRegexInput').value = regex;
+            break;
+        }
+
+        const filterRegexSend = document.getElementById('filterRegexSend');
+        filterRegexSend.onclick = filterRegexEvent;
+        const filterBasicSend = document.getElementById('filterBasicSend');
+        filterBasicSend.onclick = filterBasicEvent;
+    });
+
+</script>
+
+{% include "html_end.html" %}

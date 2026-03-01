@@ -1,0 +1,131 @@
+{% load i18n %}
+{% include "html_start.html" %}
+
+<div class="container w-50">
+    <h1 class="text-center">{% translate "Sprawdź pomysł na znak!" %}</h1>
+    <p class="text-center">
+        Jest to wersja rozwojowa narzędzia do oceny pomysłu na znak. Narzędzie wstępnie zostało napisane w oparciu o doświadczenie zdobyte przez autora projektu. Zapraszam do dyskusji dot. tego narzędzia na <a href="https://gitlab.com/adrian.grzeca/polishhamstats/-/issues">stronie projektu</a>. Dyskusja w tym miejscu pozwoli innym wziąć w niej udział. Z racji tej, że to narzędzie jest open-source jestem otwarty na propozycje i współpracę.
+    </p>
+    <form class="p-3" id="formCallsign" method="get">
+        <div class="mb-3">
+            <label for="callsign" class="form-label">{% translate "Wpisz znak" %}</label>
+            <input type="text" class="form-control" name="callsign" id="callsign" value="{{ callsign|default_if_none:'' }}">
+            <div id="callsignHelp" class="form-text">{% translate "Wielkość liter nie ma znaczenia!" %}</div>
+        </div>
+        <button type="submit" class="btn btn-primary">{% translate "Sprawdź" %}</button>
+    </form>
+</div>
+
+{% if error %}
+<div class="container">
+    <h1 class="text-center">{% translate "Wystąpił błąd!" %}</h1>
+    <p class="text-center">{{ error }}</p>
+</div>
+{% endif %}
+
+{% if report %}
+<div class="container w-50">
+    <h1 class="text-center">{% translate "Raport dla znaku" %}</h1>
+    <h2 class="text-center">{{ callsign }}</h2>
+    {% if is_active %}
+    <h2 class="text-center text-success">{% translate "Zajęty!" %}</h2>
+    {% else %}
+    <h2 class="text-center text-danger">{% translate "Nie aktywny!" %}</h2>
+    <p class="text-center">
+        {% translate "Znak może być zajęty bądź wolny. Baza UKE ma opóźnienie do nawet 60 dni!" %}<br/>
+    </p>
+    {% endif %}
+    {% if is_empty %}
+    <h2 class="text-center text-danger">{% translate "Znaku nie ma w bazie!" %}</h2>
+    {% endif %}
+    <h2 class="text-center">{% translate "Status w PZK" %}</h2>
+    <p class="text-center">{% translate "Dane pobierane z OSEC PZK w czasie rzeczywistym." %}</p>
+    <table class="table table-striped" id="pzk-table">
+        <tbody>
+            <tr>
+                <th scope="row" id="pzk-error">{% translate "Pobieranie danych.." %}</th>
+            </tr>
+        </tbody>
+    </table>
+    <h2 class="text-center">{% translate "Uwagi co do znaku" %}</h2>
+    <table class="table table-striped">
+        <tr>
+            <th class="w-25" scope="row">{% translate "Prefix" %}</th>
+            <td>
+                {% if prefix_recommendation == "sp-sq" %}
+                <span class="fw-bold">Bardzo dobry wybór prefixu!</span><br/>
+                SP i SQ to dwa najpopularniejsze polskie prefixy. Są dobrze kojarzone w kraju i za granicą.
+                {% endif %}
+                {% if prefix_recommendation == "sn-so" %}
+                <span class="fw-bold">Dobry wybór prefixu!</span><br/>
+                Litera S w tych prefixach mocno kojarzy się z Polską. Część bardziej doświadczonych krótkofalowców uznaje prefix SN za contestowy, a SO za używany przez obcokrajowców. Nadal to zwykle lepszy wybór niż HF czy 3Z.
+                {% endif %}
+                {% if prefix_recommendation == "hf-3z" %}
+                <span class="fw-bold">Raczej niezalecany jako pierwszy lub główny znak.</span><br/>
+                Prefixy HF i 3Z bywają problematyczne w użyciu za granicą i słabiej kojarzą się z Polską. Zdarzają się nieporozumienia, np. w logach czy raportach DXCC. Dla części operatorów to ciekawostka, ale jako znak dodatkowy lub dyplomowy mogą być dobrym wyborem.
+                {% endif %}
+                {% if prefix_recommendation == "sr" %}
+                <span class="fw-bold">TYLKO DLA STACJI AUTOMATYCZNYCH!</span><br/>
+                Zgodnie z obowiązującym prawem jest to prefix wydawany tylko stacjom automatycznym!
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th class="w-25" scope="row">{% translate "Okręg" %}</th>
+            <td>
+                <span class="fw-bold">W Polsce nie ma formalnego podziału na okręgi. UKE pozwala wybrać dowolny okręg, ale w praktyce wielu operatorów trzyma się obszaru swojej aktywności/QTH.</span><br/><br/>
+                {% if digit_recommendation == "0" %}
+                Okręg bez przypisanego obszaru. Częściej używany przez kluby ogólnopolskie i stacje specjalne. Dla osoby ze stałym miejscem zamieszkania zwykle nie jest to najlepszy wybór.
+                {% else %}
+                <span class="fw-bold">Obszar okręgu: </span>
+                {% endif %}
+                {% if digit_recommendation == "1" %}
+                Województwo Zachodniopomorskie
+                {% endif %}
+                {% if digit_recommendation == "2" %}
+                Województwo Pomorskie i Kujawsko-Pomorskie<br/>
+                Część stacji z Elbląga potrafi też korzystać z tego okręgu!
+                {% endif %}
+                {% if digit_recommendation == "3" %}
+                Województwo Lubuskie i Wielkopolskie
+                {% endif %}
+                {% if digit_recommendation == "4" %}
+                Województwo Podlaskie i Warmińsko-Mazurskie
+                {% endif %}
+                {% if digit_recommendation == "5" %}
+                Warszawa i województwo mazowieckie
+                {% endif %}
+                {% if digit_recommendation == "6" %}
+                Województwo Dolnośląskie i Opolskie
+                {% endif %}
+                {% if digit_recommendation == "7" %}
+                Województwo łódzkie i świętokrzyskie<br/>
+                Część stacji z Radomia potrafi też korzystać z tego okręgu!
+                {% endif %}
+                {% if digit_recommendation == "8" %}
+                Województwo Lubelskie i Podkarpackie
+                {% endif %}
+                {% if digit_recommendation == "9" %}
+                Województwo Śląskie i Małopolskie
+                {% endif %}
+            </td>
+        </tr>
+        {% for remark in remarks %}
+        <tr>
+            <th class="w-25" scope="row">{% translate "Uwagi" %}</th>
+            <td>
+                {% if remark == "hf0" %}
+                Znak może być błędnie interpretowany jako DXCC Szetlandy Południowe, a nie Polska.
+                {% endif %}
+                {% if remark == "aprsn't" %}
+                Czteroliterowy suffix wykluczy znak z APRS i innych rozwiązań opartych o AX.25. Bywa też bardziej kłopotliwy w literowaniu.
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% include "pzk_script.html" %}
+{% endif %}
+
+{% include "html_end.html" %}

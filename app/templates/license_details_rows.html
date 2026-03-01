@@ -1,0 +1,95 @@
+{% load i18n %}
+<tr>
+    <th scope="row">{% translate "Ważne do dnia" %}</th>
+    <td>{{ license_data.expiration_date|default_if_none:"" }}</td>
+</tr>
+<tr>
+    <th scope="row">{% translate "Kategoria" %}</th>
+    <td>{{ license_data.category|default_if_none:"" }}</td>
+</tr>
+<tr>
+    <th scope="row">{% translate "Moc" %}</th>
+    <td>{% if license_data.power or license_data.power == 0 %}{{ license_data.power }}W{% endif %}</td>
+</tr>
+<tr>
+    <th scope="row">{% translate "Rodzaj pozwolenia" %}</th>
+    <td>{{ license_data.type|default_if_none:"" }}</td>
+</tr>
+{% if license_data.type_numeric == 1 or license_data.type_numeric == 2 %}
+<tr>
+    <th scope="row">{% translate "Lokalizacja stacji" %}</th>
+    <td>{{ license_data.station_location|default_if_none:"" }}</td>
+</tr>
+{% endif %}
+{% if license_data.type_numeric == 3 or license_data.type_numeric == 4 %}
+<tr>
+    <th scope="row">{% translate "Wnioskodawca" %}</th>
+    <td>
+        {{ license_data.applicant_name|default_if_none:"" }}<br/>
+        {{ license_data.applicant_street|default_if_none:"" }} {{ license_data.applicant_house|default_if_none:"" }}{% if license_data.applicant_number %} lok. {{ license_data.applicant_number }}{% endif %}<br/>
+        {{ license_data.applicant_city|default_if_none:"" }}
+    </td>
+</tr>
+{% endif %}
+{% if license_data.type_numeric == 3 or license_data.type_numeric == 4 %}
+<tr>
+    <th scope="row">{% translate "Użytkownik stacji" %}</th>
+    <td>
+        {{ license_data.enduser_name|default_if_none:"" }}<br/>
+        {{ license_data.enduser_street|default_if_none:"" }} {{ license_data.enduser_house|default_if_none:"" }}{% if license_data.enduser_number %} lok. {{ license_data.enduser_number }}{% endif %}<br/>
+        {{ license_data.enduser_city|default_if_none:"" }}
+    </td>
+</tr>
+{% endif %}
+{% if license_data.type_numeric == 3 or license_data.type_numeric == 4 %}
+<tr>
+    <th scope="row">{% translate "Lokacja stacji" %}</th>
+    <td>
+        {{ license_data.station_street|default_if_none:"" }} {{ license_data.station_house|default_if_none:"" }}{% if license_data.station_number %} lok. {{ license_data.station_number }}{% endif %}<br/>
+        {{ license_data.station_city|default_if_none:"" }}
+    </td>
+</tr>
+{% endif %}
+{% if license_data.type_numeric == 3 or license_data.type_numeric == 4 %}
+{% if license_data.lat and license_data.lng %}
+<tr>
+    <th scope="row">{% translate "Współrzędne stacji" %}</th>
+    <td>
+        {% translate "Szerokość:" %} {{ license_data.lat }}<br />
+        {% translate "Długość:" %} {{ license_data.lng }}
+    </td>
+</tr>
+{% endif %}
+{% endif %}
+{% if license_data.type_numeric == 2 or license_data.type_numeric == 4 %}
+<tr>
+    <th scope="row">{% translate "Rodzaj stacji" %}</th>
+    <td>{{ license_data.name_type_station|default_if_none:"" }}</td>
+</tr>
+{% endif %}
+{% if license_data.type_numeric == 2 or license_data.type_numeric == 4 %}
+<tr>
+    <th scope="row">{% translate "Rodzaj emisji" %}</th>
+    <td>{{ license_data.emission|default_if_none:"" }}</td>
+</tr>
+{% endif %}
+{% if license_data.type_numeric == 2 or license_data.type_numeric == 4 %}
+<tr>
+    <th scope="row">{% translate "Częstotliwości wejściowe" %}</th>
+    <td>{{ license_data.input_frequency|default_if_none:"" }}</td>
+</tr>
+{% endif %}
+{% if license_data.type_numeric == 2 or license_data.type_numeric == 4 %}
+<tr>
+    <th scope="row">{% translate "Częstotliwości wyjściowe" %}</th>
+    <td>{{ license_data.output_frequency|default_if_none:"" }}</td>
+</tr>
+{% endif %}
+<tr>
+    <th scope="row">{% translate "Pierwszy raz widziany" %}</th>
+    <td>{{ license_data.first_seen|default_if_none:"" }}</td>
+</tr>
+<tr>
+    <th scope="row">{% translate "Ostatni raz widziany" %}</th>
+    <td>{{ license_data.last_seen|default_if_none:"" }}</td>
+</tr>

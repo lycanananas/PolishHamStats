@@ -1,0 +1,70 @@
+{% load i18n %}
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const errorLabel = document.getElementById('pzk-error');
+        let response;
+
+        try {
+            response = await fetch('/pzk_proxy/{{ callsign }}');
+        } catch {
+            errorLabel.innerText = '{% translate "Błąd pobierania danych" %}';
+            return;
+        }
+
+        const json = await response.json();
+        if (json.status == 404) {
+            errorLabel.innerText = '{% translate "Znaku nie ma w bazie PZK!" %}';
+        }
+        else if (json.status == 502) {
+            errorLabel.innerText = '{% translate "Wystąpił błąd pobierania danych z PZK!" %}';
+        }
+        else if (json.status == 200) {
+            const table = document.getElementById('pzk-table');
+            const newTBody = document.createElement('tbody');
+
+            const translateTable = {
+                'znak': '{% translate "Znak" %}',
+                'status_stacji': '{% translate "Status stacji" %}',
+                'klasyfikacja': '{% translate "Klasyfikacja" %}',
+                'ot': '{% translate "Oddział terenowy" %}',
+                'rodzaj_stacji': '{% translate "Rodzaj stacji" %}',
+                'znak_poprzedni': '{% translate "Znak poprzedni" %}',
+                'imie': '{% translate "Imię" %}',
+                'inne_znaki': '{% translate "Inne znaki" %}',
+                'ostatnia_aktulizacja': '{% translate "Ostatnia aktualizacja (PZK)" %}'
+            }
+
+            for (var key in json) {
+                if(key == 'status') continue;
+
+                const tRow = document.createElement('tr');
+                const tCellLeft = document.createElement('th');
+                const tCellRight = document.createElement('td');
+                
+                tCellLeft.setAttribute('scope', 'row');
+                tCellLeft.innerText = translateTable[key];
+
+                if (Array.isArray(json[key])) {
+                    json[key].forEach((value, index) => {
+                        tCellRight.appendChild(document.createTextNode(value));
+                        if (index < json[key].length - 1) {
+                            tCellRight.appendChild(document.createElement('br'));
+                        }
+                    });
+                } else {
+                    tCellRight.innerText = json[key];
+                }
+
+                tRow.appendChild(tCellLeft);
+                tRow.appendChild(tCellRight);
+                newTBody.appendChild(tRow);
+            }
+
+            table.innerHTML = '';
+            table.appendChild(newTBody);
+        }
+        else {
+            errorLabel.innerText = '{% translate "Wystąpił błąd pobierania danych z PZK, ale dziwny!" %}';
+        }
+    });
+</script> 

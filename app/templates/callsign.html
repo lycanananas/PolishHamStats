@@ -1,0 +1,66 @@
+{% load i18n %}
+{% include "html_start.html" %}
+<div class="container w-50">
+    <h1 class="text-center">{{ callsign }}</h1>
+    {% if first_seen %}
+    {% if is_active %}
+    <h2 class="text-center text-success">{% translate "Zajęty!" %}</h1>
+    {% else %}
+    <h2 class="text-center text-danger">{% translate "Nie aktywny!" %}</h1>
+    <p class="text-center">
+        {% translate "Znak może być zajęty bądź wolny. Baza UKE ma opóźnienie do nawet 60 dni!" %}<br/>
+    </p>
+    {% endif %}
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <th scope="row">{% translate "Aktualne pozwolenie" %}</th>
+                <td><a href="/license/{{ current_license.license_slug }}">{{ current_license.license }}</a></td>
+            </tr>
+            {% include "license_details_rows.html" with license_data=current_license %}
+            <tr>
+                <th scope="row">{% translate "QRZ.com" %}</th>
+                <td><a href="https://www.qrz.com/db/{{ callsign }}">https://www.qrz.com/db/{{ callsign }}</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <h2>{% translate "Status w PZK" %}</h2>
+    <p>{% translate "Dane pobierane z OSEC PZK w czasie rzeczywistym." %}</p>
+    <table class="table table-striped" id="pzk-table">
+        <tbody>
+            <tr>
+                <th scope="row" id="pzk-error">{% translate "Pobieranie danych.." %}</th>
+            </tr>
+        </tbody>
+    </table>
+    <h2>{% translate "Wydane pozwolenia" %}</h2>
+    <p>{% translate "Baza UKE nie upublicznia daty od kiedy ważne jest pozwolenie, a nie są one zawsze ważne 10 lat! Stąd brak daty początkowej." %}</p>
+    {% for license in licenses %}
+        <h3 class="text-center"><a href="/license/{{ license.license_slug }}">{{ license.license }}</a></h3>
+        <table class="table table-striped">
+            <tbody>
+                {% include "license_details_rows.html" with license_data=license %}
+            </tbody>
+        </table>
+    {% endfor %}
+    {% else %}
+    <h2 class="text-center text-danger">{% translate "Znaku nie ma w bazie UKE oraz projektu" %}</h2>
+    <p class="text-center">
+        {% translate "Znak może być zajęty bądź wolny. Baza UKE ma opóźnienie do nawet 60 dni!" %}<br/>
+        {% translate "Sprawdź znak na QRZ.com:" %} <a href="https://www.qrz.com/db/{{ callsign }}">https://www.qrz.com/db/{{ callsign }}</a>
+    </p>
+    <h2>{% translate "Status w PZK" %}</h2>
+    <p>{% translate "Dane pobierane z OSEC PZK w czasie rzeczywistym." %}</p>
+    <table class="table table-striped" id="pzk-table">
+        <tbody>
+            <tr>
+                <th scope="row" id="pzk-error">{% translate "Pobieranie danych.." %}</th>
+            </tr>
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+
+{% include "pzk_script.html" %}
+
+{% include "html_end.html" %}
