@@ -2,11 +2,13 @@ from django.shortcuts import render
 from django.utils.translation import gettext as _
 from datetime import date, timedelta
 from django.db.models import OuterRef, Subquery, F
+from django.core.paginator import Paginator
 
 from app.models import License
 
 
 DEFAULT_SOON_EXPIRE_DAYS = 30
+DEFAULT_SOON_EXPIRE_PER_PAGE = 50
 
 
 def _parse_days(raw_days):
@@ -43,6 +45,9 @@ def soon_expire(request):
         .order_by("expiration_date")
     )
 
+    paginator = Paginator(db_licenses_query, DEFAULT_SOON_EXPIRE_PER_PAGE)
+    page_obj = paginator.get_page(request.GET.get("page"))
+
     callsigns = [
         {
             "license": db_license.license,
@@ -53,7 +58,7 @@ def soon_expire(request):
             "expiration_date": db_license.expiration_date,
             "type": License.TYPE_MAP[db_license.type],
         }
-        for db_license in db_licenses_query
+        for db_license in page_obj.object_list
     ]
 
     return render(
@@ -63,6 +68,7 @@ def soon_expire(request):
             "title": _("Niedługo wygasną"),
             "days": days,
             "callsigns": callsigns,
-            "callsign_count": len(callsigns),
+            "callsign_count": paginator.count,
+            "page_obj": page_obj,
         },
     )

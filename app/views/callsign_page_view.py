@@ -59,6 +59,8 @@ def callsign_page(request):
         context["is_filter_error"] = True
         callsigns = Callsign.objects.all()
 
+    callsigns = callsigns.order_by("callsign")
+
     paginator = Paginator(callsigns, 50)
     page_number = request.GET.get("page")
 
@@ -66,7 +68,7 @@ def callsign_page(request):
         page = paginator.get_page(page_number)
     except Exception:
         context["is_filter_error"] = True
-        callsigns = Callsign.objects.all()
+        callsigns = Callsign.objects.all().order_by("callsign")
         paginator = Paginator(callsigns, 50)
         page = paginator.get_page(page_number)
         

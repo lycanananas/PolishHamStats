@@ -1,4 +1,6 @@
-# polishHamStats
+# PolishHamStats
+
+![PolishHamStats logo](static/logo-header.svg)
 
 Projekt agreguje dane o znakach i pozwoleniach krótkofalarskich z `amator.uke.gov.pl`, zapisuje je lokalnie i utrzymuje historię widoczności rekordów (`first_seen` / `last_seen`).
 

@@ -41,6 +41,36 @@
             {% endfor %}
         </tbody>
     </table>
+
+    {% if page_obj.paginator.num_pages > 1 %}
+    <nav aria-label="soonexpire pagination">
+        <ul class="pagination justify-content-center">
+            <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+                <a class="page-link" href="?days={{ days }}&page=1">«</a>
+            </li>
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?days={{ days }}&page={{ page_obj.previous_page_number }}">{% translate "Poprzednia" %}</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">{% translate "Poprzednia" %}</span></li>
+            {% endif %}
+            <li class="page-item disabled">
+                <span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+            </li>
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?days={{ days }}&page={{ page_obj.next_page_number }}">{% translate "Następna" %}</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">{% translate "Następna" %}</span></li>
+            {% endif %}
+            <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+                <a class="page-link" href="?days={{ days }}&page={{ page_obj.paginator.num_pages }}">»</a>
+            </li>
+        </ul>
+    </nav>
+    {% endif %}
 </div>
 
 {% include "html_end.html" %}

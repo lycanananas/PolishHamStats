@@ -1,8 +1,51 @@
 {% load i18n %}
+{% load static %}
 {% include "html_start.html" %}
 <div class="container w-50">
-    <h1 class="text-center">{% translate "nazwastrony" %}</h1>
-    {% include "about_pl.html" %}
+    <h1 class="text-center">{% translate "znakisp.pl" %}</h1>
+    <p class="text-center">
+        <img src="{% static 'logo-header.svg' %}" alt="{% translate 'znakisp.pl' %}" style="max-width: 100%; height: auto; max-height: 64px;" />
+    </p>
+    <p class="text-start" style="text-align: justify;">
+        {% blocktranslate trimmed %}
+        znakisp.pl to projekt agregujący publiczne dane o polskich znakach i pozwoleniach krótkofalarskich.
+        Serwis pozwala szybko sprawdzić status znaku, historię widoczności oraz podstawowe informacje o pozwoleniach.
+        {% endblocktranslate %}
+    </p>
+
+    <p class="text-start" style="text-align: justify;">
+        {% blocktranslate trimmed %}
+        Dane UKE są synchronizowane po stronie serwera, a dane PZK pobierane na żądanie i cache'owane per znak.
+        {% endblocktranslate %}
+    </p>
+
+    <h2 class="text-start mt-4">{% translate "Aktualność i wiarygodność danych" %}</h2>
+    <p class="text-start" style="text-align: justify;">
+        {% blocktranslate trimmed %}
+        Projekt regularnie odświeża bazę danych UKE, dzięki czemu zmiany w znakach i pozwoleniach są systematycznie uwzględniane.
+        Oznacza to, że serwis pokazuje możliwie aktualny obraz sytuacji, a jednocześnie zachowuje historię zmian, aby łatwiej było zrozumieć kontekst.
+        {% endblocktranslate %}
+    </p>
+    <p class="text-start" style="text-align: justify;">
+        {% blocktranslate trimmed %}
+        Dane z PZK są pobierane dla konkretnego znaku wtedy, gdy użytkownik ich potrzebuje.
+        Taki model zmniejsza ryzyko pokazywania przypadkowych lub niepotrzebnych informacji i pomaga utrzymać spójność prezentowanych wyników.
+        {% endblocktranslate %}
+    </p>
+    <p class="text-start" style="text-align: justify;">
+        {% blocktranslate trimmed %}
+        W praktyce serwis ma pełnić rolę bezpiecznego, pomocniczego źródła informacji do codziennej pracy i weryfikacji,
+        a nie zastępować oficjalne rejestry publikowane przez instytucje źródłowe.
+        {% endblocktranslate %}
+    </p>
+
+    <h2 class="text-start mt-4">{% translate "Prywatność" %}</h2>
+    <p class="text-start" style="text-align: justify;">
+        {% blocktranslate trimmed %}
+        Projekt nie zbiera dodatkowych danych osobowych użytkowników strony ponad standardowe dane techniczne wymagane do działania serwisu.
+        Prezentowane informacje pochodzą wyłącznie z danych publicznie dostępnych na stronach UKE oraz PZK.
+        {% endblocktranslate %}
+    </p>
 </div>
 
 {% include "html_end.html" %}

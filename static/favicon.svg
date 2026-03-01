@@ -1,0 +1,16 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">znakisp.pl favicon</title>
+  <desc id="desc">Sygnet projektu znakisp.pl</desc>
+  <defs>
+    <linearGradient id="g" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4DA3FF"/>
+      <stop offset="1" stop-color="#5BE7C4"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="48" height="48" rx="12" fill="url(#g)"/>
+  <path d="M20 37L28 27L34 33L44 22" stroke="#0B1220" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="20" cy="37" r="2" fill="#0B1220"/>
+  <circle cx="28" cy="27" r="2" fill="#0B1220"/>
+  <circle cx="34" cy="33" r="2" fill="#0B1220"/>
+  <circle cx="44" cy="22" r="2" fill="#0B1220"/>
+</svg>

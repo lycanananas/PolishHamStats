@@ -3,8 +3,17 @@
 
 <div class="container w-50">
     <h1 class="text-center">{% translate "Sprawdź pomysł na znak!" %}</h1>
+    <div class="alert alert-warning border border-2 border-warning-subtle text-center fs-5 fw-semibold my-4" role="alert">
+        {% translate "Wersja beta!" %}
+    </div>
     <p class="text-center">
-        Jest to wersja rozwojowa narzędzia do oceny pomysłu na znak. Narzędzie wstępnie zostało napisane w oparciu o doświadczenie zdobyte przez autora projektu. Zapraszam do dyskusji dot. tego narzędzia na <a href="https://gitlab.com/adrian.grzeca/polishhamstats/-/issues">stronie projektu</a>. Dyskusja w tym miejscu pozwoli innym wziąć w niej udział. Z racji tej, że to narzędzie jest open-source jestem otwarty na propozycje i współpracę.
+        {% blocktranslate trimmed %}
+        Jest to wersja rozwojowa narzędzia do oceny pomysłu na znak. Narzędzie wstępnie zostało napisane w oparciu o doświadczenie zdobyte przez autora projektu. Zapraszam do dyskusji dot. tego narzędzia na
+        {% endblocktranslate %}
+        <a href="https://github.com/lycanananas/PolishHamStats/issues">{% translate "stronie projektu" %}</a>.
+        {% blocktranslate trimmed %}
+        Dyskusja w tym miejscu pozwoli innym wziąć w niej udział. Z racji tej, że to narzędzie jest open-source jestem otwarty na propozycje i współpracę.
+        {% endblocktranslate %}
     </p>
     <form class="p-3" id="formCallsign" method="get">
         <div class="mb-3">
@@ -53,60 +62,60 @@
             <th class="w-25" scope="row">{% translate "Prefix" %}</th>
             <td>
                 {% if prefix_recommendation == "sp-sq" %}
-                <span class="fw-bold">Bardzo dobry wybór prefixu!</span><br/>
-                SP i SQ to dwa najpopularniejsze polskie prefixy. Są dobrze kojarzone w kraju i za granicą.
+                <span class="fw-bold">{% translate "Bardzo dobry wybór prefixu!" %}</span><br/>
+                {% blocktranslate trimmed %}SP i SQ to dwa najpopularniejsze polskie prefixy. Są dobrze kojarzone w kraju i za granicą.{% endblocktranslate %}
                 {% endif %}
                 {% if prefix_recommendation == "sn-so" %}
-                <span class="fw-bold">Dobry wybór prefixu!</span><br/>
-                Litera S w tych prefixach mocno kojarzy się z Polską. Część bardziej doświadczonych krótkofalowców uznaje prefix SN za contestowy, a SO za używany przez obcokrajowców. Nadal to zwykle lepszy wybór niż HF czy 3Z.
+                <span class="fw-bold">{% translate "Dobry wybór prefixu!" %}</span><br/>
+                {% blocktranslate trimmed %}Litera S w tych prefixach mocno kojarzy się z Polską. Część bardziej doświadczonych krótkofalowców uznaje prefix SN za contestowy, a SO za używany przez obcokrajowców. Nadal to zwykle lepszy wybór niż HF czy 3Z.{% endblocktranslate %}
                 {% endif %}
                 {% if prefix_recommendation == "hf-3z" %}
-                <span class="fw-bold">Raczej niezalecany jako pierwszy lub główny znak.</span><br/>
-                Prefixy HF i 3Z bywają problematyczne w użyciu za granicą i słabiej kojarzą się z Polską. Zdarzają się nieporozumienia, np. w logach czy raportach DXCC. Dla części operatorów to ciekawostka, ale jako znak dodatkowy lub dyplomowy mogą być dobrym wyborem.
+                <span class="fw-bold">{% translate "Raczej niezalecany jako pierwszy lub główny znak." %}</span><br/>
+                {% blocktranslate trimmed %}Prefixy HF i 3Z bywają problematyczne w użyciu za granicą i słabiej kojarzą się z Polską. Zdarzają się nieporozumienia, np. w logach czy raportach DXCC. Dla części operatorów to ciekawostka, ale jako znak dodatkowy lub dyplomowy mogą być dobrym wyborem.{% endblocktranslate %}
                 {% endif %}
                 {% if prefix_recommendation == "sr" %}
-                <span class="fw-bold">TYLKO DLA STACJI AUTOMATYCZNYCH!</span><br/>
-                Zgodnie z obowiązującym prawem jest to prefix wydawany tylko stacjom automatycznym!
+                <span class="fw-bold">{% translate "TYLKO DLA STACJI AUTOMATYCZNYCH!" %}</span><br/>
+                {% translate "Zgodnie z obowiązującym prawem jest to prefix wydawany tylko stacjom automatycznym!" %}
                 {% endif %}
             </td>
         </tr>
         <tr>
             <th class="w-25" scope="row">{% translate "Okręg" %}</th>
             <td>
-                <span class="fw-bold">W Polsce nie ma formalnego podziału na okręgi. UKE pozwala wybrać dowolny okręg, ale w praktyce wielu operatorów trzyma się obszaru swojej aktywności/QTH.</span><br/><br/>
+                <span class="fw-bold">{% translate "W Polsce nie ma formalnego podziału na okręgi. UKE pozwala wybrać dowolny okręg, ale w praktyce wielu operatorów trzyma się obszaru swojej aktywności/QTH." %}</span><br/><br/>
                 {% if digit_recommendation == "0" %}
-                Okręg bez przypisanego obszaru. Częściej używany przez kluby ogólnopolskie i stacje specjalne. Dla osoby ze stałym miejscem zamieszkania zwykle nie jest to najlepszy wybór.
+                {% translate "Okręg bez przypisanego obszaru. Częściej używany przez kluby ogólnopolskie i stacje specjalne. Dla osoby ze stałym miejscem zamieszkania zwykle nie jest to najlepszy wybór." %}
                 {% else %}
-                <span class="fw-bold">Obszar okręgu: </span>
+                <span class="fw-bold">{% translate "Obszar okręgu: " %}</span>
                 {% endif %}
                 {% if digit_recommendation == "1" %}
-                Województwo Zachodniopomorskie
+                {% translate "Województwo Zachodniopomorskie" %}
                 {% endif %}
                 {% if digit_recommendation == "2" %}
-                Województwo Pomorskie i Kujawsko-Pomorskie<br/>
-                Część stacji z Elbląga potrafi też korzystać z tego okręgu!
+                {% translate "Województwo Pomorskie i Kujawsko-Pomorskie" %}<br/>
+                {% translate "Część stacji z Elbląga potrafi też korzystać z tego okręgu!" %}
                 {% endif %}
                 {% if digit_recommendation == "3" %}
-                Województwo Lubuskie i Wielkopolskie
+                {% translate "Województwo Lubuskie i Wielkopolskie" %}
                 {% endif %}
                 {% if digit_recommendation == "4" %}
-                Województwo Podlaskie i Warmińsko-Mazurskie
+                {% translate "Województwo Podlaskie i Warmińsko-Mazurskie" %}
                 {% endif %}
                 {% if digit_recommendation == "5" %}
-                Warszawa i województwo mazowieckie
+                {% translate "Warszawa i województwo mazowieckie" %}
                 {% endif %}
                 {% if digit_recommendation == "6" %}
-                Województwo Dolnośląskie i Opolskie
+                {% translate "Województwo Dolnośląskie i Opolskie" %}
                 {% endif %}
                 {% if digit_recommendation == "7" %}
-                Województwo łódzkie i świętokrzyskie<br/>
-                Część stacji z Radomia potrafi też korzystać z tego okręgu!
+                {% translate "Województwo łódzkie i świętokrzyskie" %}<br/>
+                {% translate "Część stacji z Radomia potrafi też korzystać z tego okręgu!" %}
                 {% endif %}
                 {% if digit_recommendation == "8" %}
-                Województwo Lubelskie i Podkarpackie
+                {% translate "Województwo Lubelskie i Podkarpackie" %}
                 {% endif %}
                 {% if digit_recommendation == "9" %}
-                Województwo Śląskie i Małopolskie
+                {% translate "Województwo Śląskie i Małopolskie" %}
                 {% endif %}
             </td>
         </tr>
@@ -115,10 +124,10 @@
             <th class="w-25" scope="row">{% translate "Uwagi" %}</th>
             <td>
                 {% if remark == "hf0" %}
-                Znak może być błędnie interpretowany jako DXCC Szetlandy Południowe, a nie Polska.
+                {% translate "Znak może być błędnie interpretowany jako DXCC Szetlandy Południowe, a nie Polska." %}
                 {% endif %}
                 {% if remark == "aprsn't" %}
-                Czteroliterowy suffix wykluczy znak z APRS i innych rozwiązań opartych o AX.25. Bywa też bardziej kłopotliwy w literowaniu.
+                {% translate "Czteroliterowy suffix wykluczy znak z APRS i innych rozwiązań opartych o AX.25. Bywa też bardziej kłopotliwy w literowaniu." %}
                 {% endif %}
             </td>
         </tr>
