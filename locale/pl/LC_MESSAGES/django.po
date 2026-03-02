@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-10 15:44+0200\n"
+"POT-Creation-Date: 2026-03-01 23:08+0100\n"
 "PO-Revision-Date: 2025-04-04 21:34+0200\n"
 "Last-Translator: Adrian Grzeca <adrian@grzeca.me>\n"
 "Language-Team: Adrian Grzeca <adrian@grzeca.me>\n"
@@ -19,21 +19,74 @@ msgstr ""
 "(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
-#: app/templates/about.html:4 app/templates/html_start.html:8
-#: app/templates/html_start.html:18 app/templates/index.html:4
-msgid "nazwastrony"
+#: app/templates/about.html:5 app/templates/about.html:7
+#: app/templates/html_start.html:8 app/templates/html_start.html:19
+#: app/templates/index.html:4
+msgid "znakisp.pl"
+msgstr "znakisp.pl"
+
+#: app/templates/about.html:10
+msgid ""
+"znakisp.pl to projekt agregujący publiczne dane o polskich znakach i "
+"pozwoleniach krótkofalarskich. Serwis pozwala szybko sprawdzić status znaku, "
+"historię widoczności oraz podstawowe informacje o pozwoleniach."
 msgstr ""
 
-#: app/templates/callsign.html:7
+#: app/templates/about.html:17
+msgid ""
+"Dane UKE są synchronizowane po stronie serwera, a dane PZK pobierane na "
+"żądanie i cache'owane per znak."
+msgstr ""
+
+#: app/templates/about.html:22
+msgid "Aktualność i wiarygodność danych"
+msgstr ""
+
+#: app/templates/about.html:24
+msgid ""
+"Projekt regularnie odświeża bazę danych UKE, dzięki czemu zmiany w znakach i "
+"pozwoleniach są systematycznie uwzględniane. Oznacza to, że serwis pokazuje "
+"możliwie aktualny obraz sytuacji, a jednocześnie zachowuje historię zmian, "
+"aby łatwiej było zrozumieć kontekst."
+msgstr ""
+
+#: app/templates/about.html:30
+msgid ""
+"Dane z PZK są pobierane dla konkretnego znaku wtedy, gdy użytkownik ich "
+"potrzebuje. Taki model zmniejsza ryzyko pokazywania przypadkowych lub "
+"niepotrzebnych informacji i pomaga utrzymać spójność prezentowanych wyników."
+msgstr ""
+
+#: app/templates/about.html:36
+msgid ""
+"W praktyce serwis ma pełnić rolę bezpiecznego, pomocniczego źródła "
+"informacji do codziennej pracy i weryfikacji, a nie zastępować oficjalne "
+"rejestry publikowane przez instytucje źródłowe."
+msgstr ""
+
+#: app/templates/about.html:42
+msgid "Prywatność"
+msgstr ""
+
+#: app/templates/about.html:44
+msgid ""
+"Projekt nie zbiera dodatkowych danych osobowych użytkowników strony ponad "
+"standardowe dane techniczne wymagane do działania serwisu. Prezentowane "
+"informacje pochodzą wyłącznie z danych publicznie dostępnych na stronach UKE "
+"oraz PZK."
+msgstr ""
+
+#: app/templates/callsign.html:7 app/templates/check_callsign.html:40
 msgid "Zajęty!"
 msgstr ""
 
-#: app/templates/callsign.html:9
+#: app/templates/callsign.html:9 app/templates/check_callsign.html:42
 msgid "Nie aktywny!"
 msgstr ""
 
-#: app/templates/callsign.html:11 app/templates/callsign.html:239
-#: app/templates/callsign_page.html:13 app/templates/soon_expire.html:6
+#: app/templates/callsign.html:11 app/templates/callsign.html:49
+#: app/templates/callsign_page.html:13 app/templates/check_callsign.html:44
+#: app/templates/soon_expire.html:8
 msgid ""
 "Znak może być zajęty bądź wolny. Baza UKE ma opóźnienie do nawet 60 dni!"
 msgstr ""
@@ -42,185 +95,41 @@ msgstr ""
 msgid "Aktualne pozwolenie"
 msgstr ""
 
-#: app/templates/callsign.html:21 app/templates/callsign.html:138
-#: app/templates/license.html:13
-msgid "Ważne do dnia"
-msgstr ""
-
-#: app/templates/callsign.html:25 app/templates/callsign.html:142
-#: app/templates/callsign_page.html:112 app/templates/license.html:17
-#: app/templates/license_page.html:14 app/templates/soon_expire.html:13
-msgid "Kategoria"
-msgstr ""
-
-#: app/templates/callsign.html:29 app/templates/callsign.html:146
-#: app/templates/callsign_page.html:113 app/templates/license.html:21
-#: app/templates/license_page.html:15 app/templates/soon_expire.html:14
-msgid "Moc"
-msgstr ""
-
-#: app/templates/callsign.html:33 app/templates/callsign.html:150
-#: app/templates/license.html:25
-msgid "Rodzaj pozwolenia"
-msgstr ""
-
-#: app/templates/callsign.html:38 app/templates/callsign.html:155
-#: app/templates/license.html:30
-msgid "Lokalizacja stacji"
-msgstr ""
-
-#: app/templates/callsign.html:44 app/templates/callsign.html:161
-#: app/templates/license.html:36
-msgid "Wnioskodawca"
-msgstr ""
-
-#: app/templates/callsign.html:54 app/templates/callsign.html:171
-#: app/templates/license.html:46
-msgid "Użytkownik stacji"
-msgstr ""
-
-#: app/templates/callsign.html:64 app/templates/callsign.html:181
-#: app/templates/license.html:56
-msgid "Lokacja stacji"
-msgstr ""
-
-#: app/templates/callsign.html:73 app/templates/callsign.html:190
-#: app/templates/license.html:65
-msgid "Współrzędne stacji"
-msgstr ""
-
-#: app/templates/callsign.html:76 app/templates/callsign.html:193
-#: app/templates/license.html:68
-msgid "Szerokość:"
-msgstr ""
-
-#: app/templates/callsign.html:77 app/templates/callsign.html:194
-#: app/templates/license.html:69
-msgid "Długość:"
-msgstr ""
-
-#: app/templates/callsign.html:79 app/templates/callsign.html:196
-#: app/templates/license.html:71
-msgid "Brak - Stacja posiada adres, a nie współrzędne"
-msgstr ""
-
-#: app/templates/callsign.html:86 app/templates/callsign.html:203
-#: app/templates/callsign.html:279 app/templates/license.html:78
-msgid "Rodzaj stacji"
-msgstr ""
-
-#: app/templates/callsign.html:92 app/templates/callsign.html:209
-#: app/templates/license.html:84
-msgid "Rodzaj emisji"
-msgstr ""
-
-#: app/templates/callsign.html:98 app/templates/callsign.html:215
-#: app/templates/license.html:90
-msgid "Częstotliwości wejściowe"
-msgstr ""
-
-#: app/templates/callsign.html:104 app/templates/callsign.html:221
-#: app/templates/license.html:96
-msgid "Częstotliwości wyjściowe"
-msgstr ""
-
-#: app/templates/callsign.html:109 app/templates/license.html:101
-msgid "Pierwszy raz widziany"
-msgstr ""
-
-#: app/templates/callsign.html:113 app/templates/license.html:105
-msgid "Ostatni raz widziany"
-msgstr ""
-
-#: app/templates/callsign.html:117
+#: app/templates/callsign.html:22
 msgid "QRZ.com"
 msgstr ""
 
-#: app/templates/callsign.html:122 app/templates/callsign.html:242
+#: app/templates/callsign.html:27 app/templates/callsign.html:52
+#: app/templates/check_callsign.html:50
 msgid "Status w PZK"
 msgstr ""
 
-#: app/templates/callsign.html:123 app/templates/callsign.html:243
+#: app/templates/callsign.html:28 app/templates/callsign.html:53
+#: app/templates/check_callsign.html:51
 msgid "Dane pobierane z OSEC PZK w czasie rzeczywistym."
 msgstr ""
 
-#: app/templates/callsign.html:127 app/templates/callsign.html:247
+#: app/templates/callsign.html:32 app/templates/callsign.html:57
+#: app/templates/check_callsign.html:55
 msgid "Pobieranie danych.."
 msgstr ""
 
-#: app/templates/callsign.html:131
+#: app/templates/callsign.html:36
 msgid "Wydane pozwolenia"
 msgstr ""
 
-#: app/templates/callsign.html:132
+#: app/templates/callsign.html:37
 msgid ""
 "Baza UKE nie upublicznia daty od kiedy ważne jest pozwolenie, a nie są one "
 "zawsze ważne 10 lat! Stąd brak daty początkowej."
 msgstr ""
 
-#: app/templates/callsign.html:226
-msgid "Pierwszy raz widziane"
-msgstr ""
-
-#: app/templates/callsign.html:230
-msgid "Ostatni raz widziane"
-msgstr ""
-
-#: app/templates/callsign.html:237
+#: app/templates/callsign.html:47
 msgid "Znaku nie ma w bazie UKE oraz projektu"
 msgstr ""
 
-#: app/templates/callsign.html:240
+#: app/templates/callsign.html:50
 msgid "Sprawdź znak na QRZ.com:"
-msgstr ""
-
-#: app/templates/callsign.html:258
-msgid "Błąd pobierania danych"
-msgstr ""
-
-#: app/templates/callsign.html:264
-msgid "Znaku nie ma w bazie PZK!"
-msgstr ""
-
-#: app/templates/callsign.html:268
-msgid "Wystąpił błąd pobierania danych z PZK!"
-msgstr ""
-
-#: app/templates/callsign.html:275 app/templates/callsign_page.html:108
-#: app/templates/license_page.html:12 app/templates/soon_expire.html:10
-msgid "Znak"
-msgstr ""
-
-#: app/templates/callsign.html:276
-msgid "Status stacji"
-msgstr ""
-
-#: app/templates/callsign.html:277
-msgid "Klasyfikacja"
-msgstr ""
-
-#: app/templates/callsign.html:278
-msgid "Oddział terenowy"
-msgstr ""
-
-#: app/templates/callsign.html:280
-msgid "Znak poprzedni"
-msgstr ""
-
-#: app/templates/callsign.html:281
-msgid "Imię"
-msgstr ""
-
-#: app/templates/callsign.html:282
-msgid "Inne znaki"
-msgstr ""
-
-#: app/templates/callsign.html:283
-msgid "Ostatnia aktulizacja (PZK)"
-msgstr ""
-
-#: app/templates/callsign.html:306
-msgid "Wystąpił błąd pobierania danych z PZK, ale dziwny!"
 msgstr ""
 
 #: app/templates/callsign_page.html:8
@@ -245,11 +154,11 @@ msgstr ""
 msgid "Filtr - Prosty"
 msgstr ""
 
-#: app/templates/callsign_page.html:27
+#: app/templates/callsign_page.html:27 app/templates/check_callsign.html:62
 msgid "Prefix"
 msgstr ""
 
-#: app/templates/callsign_page.html:38
+#: app/templates/callsign_page.html:38 app/templates/check_callsign.html:83
 msgid "Okręg"
 msgstr ""
 
@@ -298,7 +207,7 @@ msgid "Wszystkie znaki z 4 literowym suffixem."
 msgstr ""
 
 #: app/templates/callsign_page.html:104 app/templates/license_page.html:7
-#: app/templates/soon_expire.html:5
+#: app/templates/soon_expire.html:7
 msgid "Znaleziono: "
 msgstr ""
 
@@ -306,7 +215,12 @@ msgstr ""
 msgid "znaków"
 msgstr ""
 
-#: app/templates/callsign_page.html:109 app/templates/html_start.html:23
+#: app/templates/callsign_page.html:108 app/templates/license_page.html:12
+#: app/templates/pzk_script.html:26 app/templates/soon_expire.html:23
+msgid "Znak"
+msgstr ""
+
+#: app/templates/callsign_page.html:109 app/templates/html_start.html:25
 msgid "Pozwolenia"
 msgstr ""
 
@@ -315,12 +229,24 @@ msgid "Ważny"
 msgstr ""
 
 #: app/templates/callsign_page.html:111 app/templates/license_page.html:13
-#: app/templates/soon_expire.html:12
+#: app/templates/soon_expire.html:25
 msgid "Data ważności"
 msgstr ""
 
+#: app/templates/callsign_page.html:112
+#: app/templates/license_details_rows.html:7 app/templates/license_page.html:14
+#: app/templates/soon_expire.html:26
+msgid "Kategoria"
+msgstr ""
+
+#: app/templates/callsign_page.html:113
+#: app/templates/license_details_rows.html:11
+#: app/templates/license_page.html:15 app/templates/soon_expire.html:27
+msgid "Moc"
+msgstr ""
+
 #: app/templates/callsign_page.html:114 app/templates/license_page.html:16
-#: app/templates/soon_expire.html:15
+#: app/templates/soon_expire.html:28
 msgid "Typ"
 msgstr ""
 
@@ -339,11 +265,13 @@ msgstr ""
 
 #: app/templates/callsign_page.html:147 app/templates/callsign_page.html:150
 #: app/templates/license_page.html:36 app/templates/license_page.html:39
+#: app/templates/soon_expire.html:53 app/templates/soon_expire.html:56
 msgid "Poprzednia"
 msgstr ""
 
 #: app/templates/callsign_page.html:153 app/templates/callsign_page.html:156
 #: app/templates/license_page.html:42 app/templates/license_page.html:45
+#: app/templates/soon_expire.html:63 app/templates/soon_expire.html:66
 msgid "Następna"
 msgstr ""
 
@@ -368,48 +296,203 @@ msgstr ""
 msgid "Sprawdź pomysł na znak!"
 msgstr ""
 
-#: app/templates/check_callsign.html:8
+#: app/templates/check_callsign.html:7
+msgid "Wersja beta!"
+msgstr ""
+
+#: app/templates/check_callsign.html:10
+msgid ""
+"Jest to wersja rozwojowa narzędzia do oceny pomysłu na znak. Narzędzie "
+"wstępnie zostało napisane w oparciu o doświadczenie zdobyte przez autora "
+"projektu. Zapraszam do dyskusji dot. tego narzędzia na"
+msgstr ""
+
+#: app/templates/check_callsign.html:13
+msgid "stronie projektu"
+msgstr ""
+
+#: app/templates/check_callsign.html:14
+msgid ""
+"Dyskusja w tym miejscu pozwoli innym wziąć w niej udział. Z racji tej, że to "
+"narzędzie jest open-source jestem otwarty na propozycje i współpracę."
+msgstr ""
+
+#: app/templates/check_callsign.html:20
 msgid "Wpisz znak"
 msgstr ""
 
-#: app/templates/check_callsign.html:10 app/templates/index.html:14
+#: app/templates/check_callsign.html:22 app/templates/index.html:14
 #: app/templates/index.html:24
 msgid "Wielkość liter nie ma znaczenia!"
 msgstr ""
 
-#: app/templates/check_callsign.html:12
+#: app/templates/check_callsign.html:24
 msgid "Sprawdź"
 msgstr ""
 
-#: app/templates/check_callsign.html:18
+#: app/templates/check_callsign.html:30
 msgid "Wystąpił błąd!"
 msgstr ""
 
-#: app/templates/check_callsign.html:25
+#: app/templates/check_callsign.html:37
 msgid "Raport dla znaku"
+msgstr ""
+
+#: app/templates/check_callsign.html:48
+msgid "Znaku nie ma w bazie!"
+msgstr ""
+
+#: app/templates/check_callsign.html:59
+msgid "Uwagi co do znaku"
+msgstr ""
+
+#: app/templates/check_callsign.html:65
+msgid "Bardzo dobry wybór prefixu!"
+msgstr ""
+
+#: app/templates/check_callsign.html:66
+msgid ""
+"SP i SQ to dwa najpopularniejsze polskie prefixy. Są dobrze kojarzone w "
+"kraju i za granicą."
+msgstr ""
+
+#: app/templates/check_callsign.html:69
+msgid "Dobry wybór prefixu!"
+msgstr ""
+
+#: app/templates/check_callsign.html:70
+msgid ""
+"Litera S w tych prefixach mocno kojarzy się z Polską. Część bardziej "
+"doświadczonych krótkofalowców uznaje prefix SN za contestowy, a SO za "
+"używany przez obcokrajowców. Nadal to zwykle lepszy wybór niż HF czy 3Z."
+msgstr ""
+
+#: app/templates/check_callsign.html:73
+msgid "Raczej niezalecany jako pierwszy lub główny znak."
+msgstr ""
+
+#: app/templates/check_callsign.html:74
+msgid ""
+"Prefixy HF i 3Z bywają problematyczne w użyciu za granicą i słabiej kojarzą "
+"się z Polską. Zdarzają się nieporozumienia, np. w logach czy raportach DXCC. "
+"Dla części operatorów to ciekawostka, ale jako znak dodatkowy lub dyplomowy "
+"mogą być dobrym wyborem."
+msgstr ""
+
+#: app/templates/check_callsign.html:77
+msgid "TYLKO DLA STACJI AUTOMATYCZNYCH!"
+msgstr ""
+
+#: app/templates/check_callsign.html:78
+msgid ""
+"Zgodnie z obowiązującym prawem jest to prefix wydawany tylko stacjom "
+"automatycznym!"
+msgstr ""
+
+#: app/templates/check_callsign.html:85
+msgid ""
+"W Polsce nie ma formalnego podziału na okręgi. UKE pozwala wybrać dowolny "
+"okręg, ale w praktyce wielu operatorów trzyma się obszaru swojej aktywności/"
+"QTH."
+msgstr ""
+
+#: app/templates/check_callsign.html:87
+msgid ""
+"Okręg bez przypisanego obszaru. Częściej używany przez kluby ogólnopolskie i "
+"stacje specjalne. Dla osoby ze stałym miejscem zamieszkania zwykle nie jest "
+"to najlepszy wybór."
+msgstr ""
+
+#: app/templates/check_callsign.html:89
+msgid "Obszar okręgu: "
+msgstr ""
+
+#: app/templates/check_callsign.html:92
+msgid "Województwo Zachodniopomorskie"
+msgstr ""
+
+#: app/templates/check_callsign.html:95
+msgid "Województwo Pomorskie i Kujawsko-Pomorskie"
+msgstr ""
+
+#: app/templates/check_callsign.html:96
+msgid "Część stacji z Elbląga potrafi też korzystać z tego okręgu!"
+msgstr ""
+
+#: app/templates/check_callsign.html:99
+msgid "Województwo Lubuskie i Wielkopolskie"
+msgstr ""
+
+#: app/templates/check_callsign.html:102
+msgid "Województwo Podlaskie i Warmińsko-Mazurskie"
+msgstr ""
+
+#: app/templates/check_callsign.html:105
+msgid "Warszawa i województwo mazowieckie"
+msgstr ""
+
+#: app/templates/check_callsign.html:108
+msgid "Województwo Dolnośląskie i Opolskie"
+msgstr ""
+
+#: app/templates/check_callsign.html:111
+msgid "Województwo łódzkie i świętokrzyskie"
+msgstr ""
+
+#: app/templates/check_callsign.html:112
+msgid "Część stacji z Radomia potrafi też korzystać z tego okręgu!"
+msgstr ""
+
+#: app/templates/check_callsign.html:115
+msgid "Województwo Lubelskie i Podkarpackie"
+msgstr ""
+
+#: app/templates/check_callsign.html:118
+msgid "Województwo Śląskie i Małopolskie"
+msgstr ""
+
+#: app/templates/check_callsign.html:124
+msgid "Uwagi"
+msgstr ""
+
+#: app/templates/check_callsign.html:127
+msgid ""
+"Znak może być błędnie interpretowany jako DXCC Szetlandy Południowe, a nie "
+"Polska."
+msgstr ""
+
+#: app/templates/check_callsign.html:130
+msgid ""
+"Czteroliterowy suffix wykluczy znak z APRS i innych rozwiązań opartych o "
+"AX.25. Bywa też bardziej kłopotliwy w literowaniu."
 msgstr ""
 
 #: app/templates/html_end.html:6
 msgid "Kod portalu na licencji AGPLv3"
 msgstr ""
 
-#: app/templates/html_end.html:7
-msgid "Sprawdź projekt na gitlab.com!"
+#: app/templates/html_end.html:7 app/templates/html_start.html:24
+#: app/views/index_view.py:8
+msgid "O projekcie"
 msgstr ""
 
-#: app/templates/html_start.html:22
+#: app/templates/html_end.html:8
+msgid "Sprawdź projekt na github.com!"
+msgstr ""
+
+#: app/templates/html_start.html:23
 msgid "Strona główna"
 msgstr ""
 
-#: app/templates/html_start.html:24
+#: app/templates/html_start.html:26
 msgid "Znaki"
 msgstr ""
 
-#: app/templates/html_start.html:25
+#: app/templates/html_start.html:27
 msgid "Niedługo wygasają"
 msgstr ""
 
-#: app/templates/html_start.html:26
+#: app/templates/html_start.html:28
 msgid "Sprawdź znak"
 msgstr ""
 
@@ -425,12 +508,101 @@ msgstr ""
 msgid "Wyszukaj pozwolenie"
 msgstr ""
 
-#: app/templates/license.html:9
+#: app/templates/index_about.html:3
+msgid ""
+"Witaj na stronie projektu agregatora danych z amator.uke.gov.pl! Celem "
+"portalu jest budowanie historii polskich znaków i pozwoleń radiowych. Portal "
+"ma też pomóc nowym w tym hobby w wyborze ich znaku i propagować dobre "
+"praktyki!"
+msgstr ""
+
+#: app/templates/index_about.html:8
+msgid ""
+"Strona nie gromadzi danych osobowych i nie przetwarza danych osobowych. "
+"Gromadzi jedynie publicznie dostępne dane z portalu UKE. Dane z PZK są "
+"pobierane w czasie rzeczywistym i nie są przetrzymywane w bazie danych. Dane "
+"o pozwoleniu i znaku nie są daną osobową. Dane z portalu UKE są pobierane w "
+"tle przez portal raz na dobę o 2:00 UTC."
+msgstr ""
+
+#: app/templates/license.html:10 app/templates/license.html:15
+msgid "Status"
+msgstr ""
+
+#: app/templates/license.html:11
+msgid "Aktywne"
+msgstr ""
+
+#: app/templates/license.html:16
+msgid "Nie aktywne"
+msgstr ""
+
+#: app/templates/license.html:20
 msgid "Przypisany znak"
 msgstr ""
 
-#: app/templates/license.html:111
+#: app/templates/license.html:27
 msgid "Pozwolenia nie ma w bazie UKE oraz projektu"
+msgstr ""
+
+#: app/templates/license_details_rows.html:3
+msgid "Ważne do dnia"
+msgstr ""
+
+#: app/templates/license_details_rows.html:15
+msgid "Rodzaj pozwolenia"
+msgstr ""
+
+#: app/templates/license_details_rows.html:20
+msgid "Lokalizacja stacji"
+msgstr ""
+
+#: app/templates/license_details_rows.html:26
+msgid "Wnioskodawca"
+msgstr ""
+
+#: app/templates/license_details_rows.html:36
+msgid "Użytkownik stacji"
+msgstr ""
+
+#: app/templates/license_details_rows.html:46
+msgid "Lokacja stacji"
+msgstr ""
+
+#: app/templates/license_details_rows.html:56
+msgid "Współrzędne stacji"
+msgstr ""
+
+#: app/templates/license_details_rows.html:58
+msgid "Szerokość:"
+msgstr ""
+
+#: app/templates/license_details_rows.html:59
+msgid "Długość:"
+msgstr ""
+
+#: app/templates/license_details_rows.html:66 app/templates/pzk_script.html:30
+msgid "Rodzaj stacji"
+msgstr ""
+
+#: app/templates/license_details_rows.html:72
+msgid "Rodzaj emisji"
+msgstr ""
+
+#: app/templates/license_details_rows.html:78
+msgid "Częstotliwości wejściowe"
+msgstr ""
+
+#: app/templates/license_details_rows.html:84
+msgid "Częstotliwości wyjściowe"
+msgstr ""
+
+#: app/templates/license_details_rows.html:89
+msgid "Pierwszy raz widziany"
+msgstr ""
+
+#: app/templates/license_details_rows.html:93
+msgid "Ostatni raz widziany"
 msgstr ""
 
 #: app/templates/license_page.html:6
@@ -441,59 +613,105 @@ msgstr ""
 msgid "pozwoleń"
 msgstr ""
 
-#: app/templates/license_page.html:11 app/templates/soon_expire.html:11
+#: app/templates/license_page.html:11 app/templates/soon_expire.html:24
 msgid "Pozwolenie"
 msgstr ""
 
-#: app/templates/soon_expire.html:4
-msgid "Znaki wygasające w ciagu 30 dni"
+#: app/templates/pzk_script.html:10
+msgid "Błąd pobierania danych"
+msgstr ""
+
+#: app/templates/pzk_script.html:16
+msgid "Znaku nie ma w bazie PZK!"
+msgstr ""
+
+#: app/templates/pzk_script.html:19
+msgid "Wystąpił błąd pobierania danych z PZK!"
+msgstr ""
+
+#: app/templates/pzk_script.html:27
+msgid "Status stacji"
+msgstr ""
+
+#: app/templates/pzk_script.html:28
+msgid "Klasyfikacja"
+msgstr ""
+
+#: app/templates/pzk_script.html:29
+msgid "Oddział terenowy"
+msgstr ""
+
+#: app/templates/pzk_script.html:31
+msgid "Znak poprzedni"
+msgstr ""
+
+#: app/templates/pzk_script.html:32
+msgid "Imię"
+msgstr ""
+
+#: app/templates/pzk_script.html:33
+msgid "Inne znaki"
+msgstr ""
+
+#: app/templates/pzk_script.html:34
+msgid "Ostatnia aktualizacja (PZK)"
+msgstr ""
+
+#: app/templates/pzk_script.html:67
+msgid "Wystąpił błąd pobierania danych z PZK, ale dziwny!"
 msgstr ""
 
 #: app/templates/soon_expire.html:5
+#, python-format
+msgid "Znaki wygasające w ciągu %(days)s dni"
+msgstr ""
+
+#: app/templates/soon_expire.html:7
 msgid "wygasających znaków."
 msgstr ""
 
-#: app/views/callsign_page_view.py:15
+#: app/templates/soon_expire.html:11
+msgid "Zakres dni"
+msgstr ""
+
+#: app/templates/soon_expire.html:17
+msgid "Filtruj"
+msgstr ""
+
+#: app/views/callsign_page_view.py:39
 msgid "Lista znaków"
 msgstr ""
 
-#: app/views/callsign_view.py:36
+#: app/views/callsign_view.py:27
 msgid "Znak nie ma żadnego pozwolenia! Skontaktuj się z autorami!"
 msgstr ""
 
-#: app/views/check_callsign_view.py:10 app/views/index_view.py:8
+#: app/views/check_callsign_view.py:12 app/views/index_view.py:5
 msgid "Strona Główna"
 msgstr ""
 
-#: app/views/check_callsign_view.py:21
-msgid ""
-"Znak jest nie prawidłowej długości - musi być minimum 4 znakowy i "
-"maksymalnie 7 znakowy."
-msgstr ""
-
 #: app/views/check_callsign_view.py:25
-msgid "Znak jest nie znakiem! Bądź jest z obcego państwa!"
+msgid "Znak ma nieprawidłową długość. Musi mieć od 4 do 7 znaków."
 msgstr ""
 
-#: app/views/check_callsign_view.py:35
-msgid "prefix-sp-sq-label"
-msgstr "Bardzo dobry wybór prefixu! SP i SQ to są najpolularniejsze polskie prefixy. Łatwo kojarzące się zagranicą z Polską. Taki wybór pozwoli ci uniknąć nie porozumień z innymi HAMsami. Pamietaj SQ nie jest niczym gorsze od SP."
-
-#: app/views/check_callsign_view.py:37
-msgid "prefix-sn-so-label"
+#: app/views/check_callsign_view.py:32
+msgid "To nie jest poprawny polski znak krótkofalarski."
 msgstr ""
 
-#: app/views/index_view.py:13
-msgid "O projekcie"
-msgstr ""
-
-#: app/views/license_page_view.py:18
+#: app/views/license_page_view.py:17
 msgid "Lista pozwoleń"
 msgstr ""
 
-#: app/views/soon_expire_view.py:13
+#: app/views/soon_expire_view.py:68
 msgid "Niedługo wygasną"
 msgstr ""
+
+#~ msgid "prefix-sp-sq-label"
+#~ msgstr ""
+#~ "Bardzo dobry wybór prefixu! SP i SQ to są najpolularniejsze polskie "
+#~ "prefixy. Łatwo kojarzące się zagranicą z Polską. Taki wybór pozwoli ci "
+#~ "uniknąć nie porozumień z innymi HAMsami. Pamietaj SQ nie jest niczym "
+#~ "gorsze od SP."
 
 #~ msgid "main-page-about"
 #~ msgstr ""

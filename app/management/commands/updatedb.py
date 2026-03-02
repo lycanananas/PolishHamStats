@@ -106,17 +106,42 @@ class Command(BaseCommand):
             .order_by("expiration_date", "assigned_callsign__callsign", "license")
         )
 
+        future_licenses = (
+            License.objects.filter(expiration_date__gt=end_date)
+            .select_related("assigned_callsign")
+            .order_by("assigned_callsign__callsign", "expiration_date", "license")
+        )
+
+        future_by_callsign = {}
+        for license_obj in future_licenses:
+            callsign_value = license_obj.assigned_callsign.callsign
+            if callsign_value in future_by_callsign:
+                continue
+            future_by_callsign[callsign_value] = license_obj
+
         earliest_by_callsign = {}
         for license_obj in soon_expire_licenses:
             callsign_value = license_obj.assigned_callsign.callsign
             if callsign_value in earliest_by_callsign:
                 continue
             days_left = (license_obj.expiration_date - today).days
+            future_license_obj = future_by_callsign.get(callsign_value)
+            future_license = None
+            if future_license_obj is not None:
+                future_license = {
+                    "license": future_license_obj.license,
+                    "expiration_date": future_license_obj.expiration_date.isoformat(),
+                    "days_left": (future_license_obj.expiration_date - today).days,
+                }
             earliest_by_callsign[callsign_value] = {
                 "callsign": callsign_value,
                 "license": license_obj.license,
                 "expiration_date": license_obj.expiration_date.isoformat(),
                 "days_left": days_left,
+                "has_future_license": future_license is not None,
+                "renewed": future_license is not None,
+                "future_license": future_license,
+                "alert_eligible": future_license is None,
             }
 
         return earliest_by_callsign
@@ -131,7 +156,19 @@ class Command(BaseCommand):
         if not isinstance(previous_map, dict):
             previous_map = {}
 
-        current_map = self._build_soon_expire_current(today)
+        current_map_all = self._build_soon_expire_current(today)
+        current_map = {
+            callsign: data
+            for callsign, data in current_map_all.items()
+            if data.get("alert_eligible", False)
+        }
+        excluded_map = {
+            callsign: data
+            for callsign, data in current_map_all.items()
+            if not data.get("alert_eligible", False)
+        }
+        renewed_callsigns = sorted(excluded_map.keys())
+
         previous_set = set(previous_map.keys())
         current_set = set(current_map.keys())
 
@@ -145,6 +182,9 @@ class Command(BaseCommand):
             "window_days": self.SOON_EXPIRE_DAYS,
             "counts": {
                 "current": len(current_set),
+                "current_all": len(current_map_all),
+                "excluded_has_future_license": len(excluded_map),
+                "renewed": len(renewed_callsigns),
                 "added": len(added_callsigns),
                 "removed": len(removed_callsigns),
                 "unchanged": len(unchanged_callsigns),
@@ -159,6 +199,15 @@ class Command(BaseCommand):
             ],
             "unchanged": [current_map[callsign] for callsign in unchanged_callsigns],
             "current": [current_map[callsign] for callsign in sorted(current_set)],
+            "current_all": [current_map_all[callsign] for callsign in sorted(current_map_all.keys())],
+            "excluded_has_future_license": [
+                excluded_map[callsign] for callsign in sorted(excluded_map.keys())
+            ],
+            "renewed": [excluded_map[callsign] for callsign in renewed_callsigns],
+            "mailing": {
+                "expiring_alerts": [current_map[callsign] for callsign in sorted(current_set)],
+                "renewed": [excluded_map[callsign] for callsign in renewed_callsigns],
+            },
         }
 
         snapshot_payload = {
@@ -166,6 +215,7 @@ class Command(BaseCommand):
             "today": today.isoformat(),
             "window_days": self.SOON_EXPIRE_DAYS,
             "callsigns": current_map,
+            "all_callsigns": current_map_all,
         }
 
         self._save_json(report_path, report_payload)
@@ -436,6 +486,7 @@ class Command(BaseCommand):
             (
                 f"Raport 30 dni: {soon_expire_report_info['report_path']} "
                 f"(current={soon_expire_report_info['counts']['current']}, "
+                f"renewed={soon_expire_report_info['counts']['renewed']}, "
                 f"added={soon_expire_report_info['counts']['added']}, "
                 f"removed={soon_expire_report_info['counts']['removed']})"
             )

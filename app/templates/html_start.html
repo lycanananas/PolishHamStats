@@ -5,7 +5,8 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>{{ title }} - {% translate "nazwastrony" %}</title>
+    <title>{{ title }} - {% translate "znakisp.pl" %}</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
     <link href="{% static 'bootstrap.min.css' %}" rel="stylesheet">
     <script src="{% static 'bootstrap.bundle.min.js' %}"></script>
 </head>
@@ -15,15 +16,15 @@
         <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
             <a href="/"
                 class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                <span class="fs-4">{% translate "nazwastrony" %}</span>
+                <img src="{% static 'logo-header.svg' %}" alt="{% translate 'znakisp.pl' %}" style="height: 42px; width: auto;" />
             </a>
 
             <ul class="nav nav-pills">
                 <li class="nav-item"><a href="/" class="nav-link">{% translate "Strona główna" %}</a></li>
-                <li class="nav-item"><a href="/about" class="nav-link">{% translate "O projekcie" %}</a></li>
                 <li class="nav-item"><a href="/licenses" class="nav-link">{% translate "Pozwolenia" %}</a></li>
                 <li class="nav-item"><a href="/callsigns" class="nav-link">{% translate "Znaki" %}</a></li>
                 <li class="nav-item"><a href="/soonexpire" class="nav-link">{% translate "Niedługo wygasają" %}</a></li>
+                <li class="nav-item"><a href="/recentexpire" class="nav-link">{% translate "Niedawno wygasły" %}</a></li>
                 <li class="nav-item"><a href="/checkcallsign" class="nav-link">{% translate "Sprawdź znak" %}</a></li>
             </ul>
         </header>

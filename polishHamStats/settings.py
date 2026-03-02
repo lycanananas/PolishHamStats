@@ -12,7 +12,7 @@ SECRET_KEY = "django-insecure-_fp(uy01@k&mxyk%9!6n4o%1$2*#)rt65=m9)1lb@(zag7)=wb
 
 DEBUG = bool(env("PY_DEBUG"))
 
-ALLOWED_HOSTS = [ env("PY_HOSTS") ]
+ALLOWED_HOSTS = [host.strip() for host in env("PY_HOSTS").split(",") if host.strip()]
 
 INSTALLED_APPS = [
     "app.apps.AppConfig",
@@ -97,12 +97,14 @@ LOCALE_PATHS = [
     os.path.join(BASE_DIR, "locale"),
 ]
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 
 STATIC_DIR = os.path.join (BASE_DIR, "static")
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

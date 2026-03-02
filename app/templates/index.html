@@ -1,8 +1,12 @@
 {% load i18n %}
+{% load static %}
 {% include "html_start.html" %}
 <div class="container w-50">
-    <h1 class="text-center">{% translate "nazwastrony" %}</h1>
-    {% include "index_about_pl.html" %}
+    <h1 class="text-center">{% translate "znakisp.pl" %}</h1>
+    <p class="text-center">
+        <img src="{% static 'logo-header.svg' %}" alt="{% translate 'znakisp.pl' %}" style="max-width: 100%; height: auto; max-height: 64px;" />
+    </p>
+    {% include "index_about.html" %}
 </div>
 <div class="container w-50">
     <div class="row align-items-start">
@@ -45,8 +49,8 @@
         formLicense.addEventListener('submit', event => {
             event.preventDefault()
             event.stopPropagation()
-            const license = document.getElementById('license').value.replaceAll('/', '-');
-            window.location.href = '/license/' + license;
+            const license = document.getElementById('license').value.trim();
+            window.location.href = '/license/' + encodeURI(license);
         }, false)
     })()
 

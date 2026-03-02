@@ -1,4 +1,6 @@
-# polishHamStats
+# PolishHamStats
+
+![PolishHamStats logo](static/logo-header.svg)
 
 Projekt agreguje dane o znakach i pozwoleniach krótkofalarskich z `amator.uke.gov.pl`, zapisuje je lokalnie i utrzymuje historię widoczności rekordów (`first_seen` / `last_seen`).
 
@@ -124,7 +126,7 @@ Co robi komenda:
 - loguje podsumowanie importu,
 - zapisuje raporty JSON w `reports/updatedb/`:
   - `updatedb_YYYYMMDD_HHMMSS.json` — pełny raport zmian (dodane/zmienione/brakujące dziś),
-  - `soon_expire_YYYYMMDD_HHMMSS.json` — lista znaków wygasających w 30 dni + delta względem poprzedniego uruchomienia,
+  - `soon_expire_YYYYMMDD_HHMMSS.json` — lista znaków wygasających w 30 dni + delta względem poprzedniego uruchomienia (pole `current` zawiera tylko wpisy bez kolejnego pozwolenia poza oknem 30 dni, `excluded_has_future_license`/`renewed` zawiera wpisy wykluczone z alarmu, czyli znaki już przedłużone),
   - `soon_expire_snapshot.json` — snapshot używany do wyliczania delty.
 
 ---

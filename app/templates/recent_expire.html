@@ -2,9 +2,9 @@
 {% include "html_start.html" %}
 <div class="container">
     <h1 class="text-center">
-        {% blocktranslate with days=days %}Znaki wygasające w ciągu {{ days }} dni{% endblocktranslate %}
+        {% blocktranslate with days=days %}Znaki wygasłe w ciągu ostatnich {{ days }} dni{% endblocktranslate %}
     </h1>
-    <h2 class="text-center">{% translate "Znaleziono: " %} {{ callsign_count }} {% translate "wygasających znaków." %}</h2>
+    <h2 class="text-center">{% translate "Znaleziono: " %} {{ callsign_count }} {% translate "wygasłych znaków." %}</h2>
     <p class="text-center">{% translate "Znak może być zajęty bądź wolny. Baza UKE ma opóźnienie do nawet 60 dni!" %}</p>
     <form class="row g-3 mb-3" method="get">
         <div class="col-auto">
@@ -27,7 +27,7 @@
               <th scope="col">{% translate "Moc" %}</th>
               <th scope="col">{% translate "Typ" %}</th>
             </tr>
-          </thead>        
+          </thead>
         <tbody>
             {% for callsign in callsigns %}
             <tr>
@@ -43,7 +43,7 @@
     </table>
 
     {% if page_obj.paginator.num_pages > 1 %}
-    <nav aria-label="soonexpire pagination">
+    <nav aria-label="recentexpire pagination">
         <ul class="pagination justify-content-center">
             <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
                 <a class="page-link" href="?days={{ days }}&page=1">«</a>
