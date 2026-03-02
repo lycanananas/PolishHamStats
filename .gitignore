@@ -87,6 +87,8 @@ __pycache__/
 local_settings.py
 
 .env
+docker/*.env
+!docker/*.env.example
 db.sqlite3
 
 # Generated reports
