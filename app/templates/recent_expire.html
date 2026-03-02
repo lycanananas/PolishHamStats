@@ -1,0 +1,76 @@
+{% load i18n %}
+{% include "html_start.html" %}
+<div class="container">
+    <h1 class="text-center">
+        {% blocktranslate with days=days %}Znaki wygasłe w ciągu ostatnich {{ days }} dni{% endblocktranslate %}
+    </h1>
+    <h2 class="text-center">{% translate "Znaleziono: " %} {{ callsign_count }} {% translate "wygasłych znaków." %}</h2>
+    <p class="text-center">{% translate "Znak może być zajęty bądź wolny. Baza UKE ma opóźnienie do nawet 60 dni!" %}</p>
+    <form class="row g-3 mb-3" method="get">
+        <div class="col-auto">
+            <label for="days" class="col-form-label">{% translate "Zakres dni" %}</label>
+        </div>
+        <div class="col-auto">
+            <input type="number" min="1" max="3650" class="form-control" id="days" name="days" value="{{ days }}">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">{% translate "Filtruj" %}</button>
+        </div>
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+              <th scope="col">{% translate "Znak" %}</th>
+              <th scope="col">{% translate "Pozwolenie" %}</th>
+              <th scope="col">{% translate "Data ważności" %}</th>
+              <th scope="col">{% translate "Kategoria" %}</th>
+              <th scope="col">{% translate "Moc" %}</th>
+              <th scope="col">{% translate "Typ" %}</th>
+            </tr>
+          </thead>
+        <tbody>
+            {% for callsign in callsigns %}
+            <tr>
+                <th scope="row"><a href="/callsign/{{ callsign.callsign }}">{{ callsign.callsign }}</a></th>
+                <td><a href="/license/{{ callsign.license_slug }}">{{ callsign.license }}</a></td>
+                <td>{{ callsign.expiration_date }}</td>
+                <td>{{ callsign.category }}</td>
+                <td>{{ callsign.power }}W</td>
+                <td>{{ callsign.type }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if page_obj.paginator.num_pages > 1 %}
+    <nav aria-label="recentexpire pagination">
+        <ul class="pagination justify-content-center">
+            <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+                <a class="page-link" href="?days={{ days }}&page=1">«</a>
+            </li>
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?days={{ days }}&page={{ page_obj.previous_page_number }}">{% translate "Poprzednia" %}</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">{% translate "Poprzednia" %}</span></li>
+            {% endif %}
+            <li class="page-item disabled">
+                <span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+            </li>
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?days={{ days }}&page={{ page_obj.next_page_number }}">{% translate "Następna" %}</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">{% translate "Następna" %}</span></li>
+            {% endif %}
+            <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+                <a class="page-link" href="?days={{ days }}&page={{ page_obj.paginator.num_pages }}">»</a>
+            </li>
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+
+{% include "html_end.html" %}

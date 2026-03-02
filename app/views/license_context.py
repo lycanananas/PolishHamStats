@@ -6,7 +6,7 @@ from app.models import License
 def serialize_license(db_license: License) -> dict:
     return {
         "license": db_license.license,
-        "license_slug": db_license.license.replace("/", "-"),
+        "license_slug": db_license.license,
         "category": License.CATEGORY_MAP[db_license.category],
         "expiration_date": db_license.expiration_date,
         "power": db_license.power,

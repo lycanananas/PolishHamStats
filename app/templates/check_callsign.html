@@ -4,15 +4,15 @@
 <div class="container w-50">
     <h1 class="text-center">{% translate "Sprawdź pomysł na znak!" %}</h1>
     <div class="alert alert-warning border border-2 border-warning-subtle text-center fs-5 fw-semibold my-4" role="alert">
-        {% translate "Wersja beta!" %}
+        {% translate "Wersja beta" %}
     </div>
     <p class="text-center">
         {% blocktranslate trimmed %}
-        Jest to wersja rozwojowa narzędzia do oceny pomysłu na znak. Narzędzie wstępnie zostało napisane w oparciu o doświadczenie zdobyte przez autora projektu. Zapraszam do dyskusji dot. tego narzędzia na
+        To narzędzie jest w wersji rozwojowej i służy do wstępnej oceny pomysłu na znak krótkofalarski. Uwagi oraz propozycje zmian zgłaszaj na
         {% endblocktranslate %}
         <a href="https://github.com/lycanananas/PolishHamStats/issues">{% translate "stronie projektu" %}</a>.
         {% blocktranslate trimmed %}
-        Dyskusja w tym miejscu pozwoli innym wziąć w niej udział. Z racji tej, że to narzędzie jest open-source jestem otwarty na propozycje i współpracę.
+        na GitHub Issues. Każda opinia pomaga rozwijać to narzędzie.
         {% endblocktranslate %}
     </p>
     <form class="p-3" id="formCallsign" method="get">
@@ -36,27 +36,19 @@
 <div class="container w-50">
     <h1 class="text-center">{% translate "Raport dla znaku" %}</h1>
     <h2 class="text-center">{{ callsign }}</h2>
-    {% if is_active %}
-    <h2 class="text-center text-success">{% translate "Zajęty!" %}</h2>
+    {% if "additional-permit-length" in remarks %}
+    <div class="alert alert-danger border border-3 border-danger text-center fs-5 fw-bold my-3" role="alert">
+        {% translate "UWAGA: taki znak jest legalny WYŁĄCZNIE dla pozwolenia dodatkowego!" %}
+    </div>
+    {% elif prefix_recommendation == "sr" %}
+    <div class="alert alert-danger border border-3 border-danger text-center fs-5 fw-bold my-3" role="alert">
+        {% translate "UWAGA: prefix SR jest przeznaczony wyłącznie dla stacji bezobsługowych!" %}
+    </div>
     {% else %}
-    <h2 class="text-center text-danger">{% translate "Nie aktywny!" %}</h2>
-    <p class="text-center">
-        {% translate "Znak może być zajęty bądź wolny. Baza UKE ma opóźnienie do nawet 60 dni!" %}<br/>
-    </p>
+    <div class="alert alert-success border border-3 border-success text-center fs-5 fw-bold my-3" role="alert">
+        {% translate "OK: znak mieści się w standardowym schemacie znaków amatorskich." %}
+    </div>
     {% endif %}
-    {% if is_empty %}
-    <h2 class="text-center text-danger">{% translate "Znaku nie ma w bazie!" %}</h2>
-    {% endif %}
-    <h2 class="text-center">{% translate "Status w PZK" %}</h2>
-    <p class="text-center">{% translate "Dane pobierane z OSEC PZK w czasie rzeczywistym." %}</p>
-    <table class="table table-striped" id="pzk-table">
-        <tbody>
-            <tr>
-                <th scope="row" id="pzk-error">{% translate "Pobieranie danych.." %}</th>
-            </tr>
-        </tbody>
-    </table>
-    <h2 class="text-center">{% translate "Uwagi co do znaku" %}</h2>
     <table class="table table-striped">
         <tr>
             <th class="w-25" scope="row">{% translate "Prefix" %}</th>
@@ -67,15 +59,15 @@
                 {% endif %}
                 {% if prefix_recommendation == "sn-so" %}
                 <span class="fw-bold">{% translate "Dobry wybór prefixu!" %}</span><br/>
-                {% blocktranslate trimmed %}Litera S w tych prefixach mocno kojarzy się z Polską. Część bardziej doświadczonych krótkofalowców uznaje prefix SN za contestowy, a SO za używany przez obcokrajowców. Nadal to zwykle lepszy wybór niż HF czy 3Z.{% endblocktranslate %}
+                {% blocktranslate trimmed %}Prefixy SN i SO są poprawne i nie powinny być dyskryminowane, ale są mniej popularne od SP/SQ. W praktyce czasem zdarzają się uprzedzenia lub gorsze traktowanie z tego powodu.{% endblocktranslate %}
                 {% endif %}
                 {% if prefix_recommendation == "hf-3z" %}
-                <span class="fw-bold">{% translate "Raczej niezalecany jako pierwszy lub główny znak." %}</span><br/>
-                {% blocktranslate trimmed %}Prefixy HF i 3Z bywają problematyczne w użyciu za granicą i słabiej kojarzą się z Polską. Zdarzają się nieporozumienia, np. w logach czy raportach DXCC. Dla części operatorów to ciekawostka, ale jako znak dodatkowy lub dyplomowy mogą być dobrym wyborem.{% endblocktranslate %}
+                <span class="fw-bold">{% translate "Poprawny, ale mniej praktyczny jako główny znak." %}</span><br/>
+                {% blocktranslate trimmed %}HF i 3Z są legalne, ale podobnie jak SN/SO bywają mniej popularne. Dodatkowo mogą wprowadzać zamieszanie za granicą i w logach, bo część operatorów może mylnie interpretować je jako inne oznaczenia DXCC (np. w kontekście zawodów DX).{% endblocktranslate %}
                 {% endif %}
                 {% if prefix_recommendation == "sr" %}
-                <span class="fw-bold">{% translate "TYLKO DLA STACJI AUTOMATYCZNYCH!" %}</span><br/>
-                {% translate "Zgodnie z obowiązującym prawem jest to prefix wydawany tylko stacjom automatycznym!" %}
+                <span class="fw-bold">{% translate "Prefix specjalny (SR)." %}</span><br/>
+                {% blocktranslate trimmed %}Prefix SR jest przydzielany stacjom bezobsługowym. Dla SR nie stosuje się wydłużonego suffixu z pozwoleń dodatkowych.{% endblocktranslate %}
                 {% endif %}
             </td>
         </tr>
@@ -126,12 +118,44 @@
                 {% if remark == "hf0" %}
                 {% translate "Znak może być błędnie interpretowany jako DXCC Szetlandy Południowe, a nie Polska." %}
                 {% endif %}
-                {% if remark == "aprsn't" %}
-                {% translate "Czteroliterowy suffix wykluczy znak z APRS i innych rozwiązań opartych o AX.25. Bywa też bardziej kłopotliwy w literowaniu." %}
+                {% if remark == "single-letter-suffix" %}
+                {% blocktranslate trimmed with all_variants=single_letter_suffix_variants_all_districts no_zero_variants=single_letter_suffix_variants_without_zero %}Jednoliterowy suffix jest rzadki i zwykle najlepiej pasuje do pracy contestowej. Dla 7 możliwych prefixów (HF, SN, SO, SP, SQ, SR, 3Z) i 1-literowego suffixu istnieje łącznie {{ all_variants }} kombinacji (lub {{ no_zero_variants }} bez okręgu 0).{% endblocktranslate %}
+                {% endif %}
+                {% if remark == "additional-permit-length" %}
+                {% blocktranslate trimmed %}Suffix dłuższy niż 4 znaki jest możliwy tylko w pozwoleniu dodatkowym (maksymalnie 7 znaków, z literą na końcu).{% endblocktranslate %}
+                {% endif %}
+                {% if remark == "aprs-ax25-limit" %}
+                {% blocktranslate trimmed %}Suffix o długości 4 lub więcej znaków daje callsign dłuższy niż 6 znaków, co przekracza klasyczny limit adresu AX.25/APRS. Taki znak będzie problematyczny lub nieobsługiwany w APRS.{% endblocktranslate %}
+                {% endif %}
+                {% if remark == "suffix-digit" %}
+                {% blocktranslate trimmed %}Cyfra w suffixie bywa poprawna formalnie, ale zwykle pogarsza czytelność i literowanie w fonii/CW oraz zwiększa ryzyko błędów w logowaniu.{% endblocktranslate %}
+                {% endif %}
+                {% if remark == "ft8-nonstandard" %}
+                {% blocktranslate trimmed %}W FT8 znak z niestandardowym suffixem (np. 4 znaki lub cyfra w suffixie) zwykle działa, ale częściej wymaga trybów niestandardowych i hashowania. To ogranicza wygodę i może utrudniać dekodowanie oraz wymianę pełnych informacji.{% endblocktranslate %}
                 {% endif %}
             </td>
         </tr>
         {% endfor %}
+    </table>
+    {% if is_active %}
+    <h2 class="text-center text-success">{% translate "Zajęty!" %}</h2>
+    {% else %}
+    <h2 class="text-center text-danger">{% translate "Nie aktywny!" %}</h2>
+    <p class="text-center">
+        {% translate "Znak może być zajęty bądź wolny. Baza UKE ma opóźnienie do nawet 60 dni!" %}<br/>
+    </p>
+    {% endif %}
+    {% if is_empty %}
+    <h2 class="text-center text-danger">{% translate "Znaku nie ma w bazie!" %}</h2>
+    {% endif %}
+    <h2 class="text-center">{% translate "Status w PZK" %}</h2>
+    <p class="text-center">{% translate "Dane pobierane z OSEC PZK w czasie rzeczywistym." %}</p>
+    <table class="table table-striped" id="pzk-table">
+        <tbody>
+            <tr>
+                <th scope="row" id="pzk-error">{% translate "Pobieranie danych.." %}</th>
+            </tr>
+        </tbody>
     </table>
 </div>
 {% include "pzk_script.html" %}

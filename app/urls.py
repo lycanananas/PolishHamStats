@@ -8,6 +8,7 @@ from .views import (
     license_page_view,
     callsign_page_view,
     soon_expire_view,
+    recent_expire_view,
     check_callsign_view,
 )
 
@@ -16,9 +17,10 @@ urlpatterns = [
     path("about", index_view.about, name="index"),
     path("callsign/<callsign>", callsign_view.callsign, name="callsign"),
     path("pzk_proxy/<callsign>", proxy_view.proxy, name="proxy_pzk"),
-    path("license/<license>", license_view.license, name="license"),
+    path("license/<path:license>", license_view.license, name="license"),
     path("licenses", license_page_view.license_page, name="licenses"),
     path("callsigns", callsign_page_view.callsign_page, name="callsigns"),
     path("soonexpire", soon_expire_view.soon_expire, name="soon_expire"),
+    path("recentexpire", recent_expire_view.recent_expire, name="recent_expire"),
     path("checkcallsign", check_callsign_view.check_callsign, name="check_callsign"),
 ]

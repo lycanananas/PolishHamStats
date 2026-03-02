@@ -108,7 +108,7 @@ def callsign_page(request):
         for license in db_licenses_query:
             context_callsign_license = {
                 "license": license.license,
-                "license_slug": license.license.replace("/", "-"),
+                "license_slug": license.license,
             }
             context_callsign["licenses"].append(context_callsign_license)
         context["callsigns"].append(context_callsign)

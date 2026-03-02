@@ -4,7 +4,7 @@ from app.models import License
 from app.views.license_context import is_license_active, serialize_license
 
 def license(request, license):
-    normalized_license = license.replace("-", "/")
+    normalized_license = license
     
     db_license = License.objects.select_related("assigned_callsign").filter(
         license=normalized_license

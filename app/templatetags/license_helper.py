@@ -7,7 +7,7 @@ register = template.Library()
 @register.filter
 @stringfilter
 def license_slug(value):
-    return value.replace("/", "-")
+    return value
 
 @register.filter
 @stringfilter

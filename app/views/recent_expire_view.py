@@ -1,32 +1,33 @@
+from datetime import date, timedelta
+
+from django.core.paginator import Paginator
+from django.db.models import F, OuterRef, Subquery
 from django.shortcuts import render
 from django.utils.translation import gettext as _
-from datetime import date, timedelta
-from django.db.models import OuterRef, Subquery, F
-from django.core.paginator import Paginator
 
 from app.models import License
 
 
-DEFAULT_SOON_EXPIRE_DAYS = 30
-DEFAULT_SOON_EXPIRE_PER_PAGE = 50
+DEFAULT_RECENT_EXPIRE_DAYS = 30
+DEFAULT_RECENT_EXPIRE_PER_PAGE = 50
 
 
 def _parse_days(raw_days):
     try:
         days = int(raw_days)
     except (TypeError, ValueError):
-        return DEFAULT_SOON_EXPIRE_DAYS
+        return DEFAULT_RECENT_EXPIRE_DAYS
 
     if days < 1:
-        return DEFAULT_SOON_EXPIRE_DAYS
+        return DEFAULT_RECENT_EXPIRE_DAYS
 
     return min(days, 3650)
 
 
-def soon_expire(request):
+def recent_expire(request):
     days = _parse_days(request.GET.get("days"))
     today = date.today()
-    max_expiration_day = today + timedelta(days=days)
+    min_expiration_day = today - timedelta(days=days)
 
     latest_expiration_subquery = (
         License.objects.filter(assigned_callsign=OuterRef("assigned_callsign"))
@@ -39,13 +40,13 @@ def soon_expire(request):
         .annotate(latest_expiration=Subquery(latest_expiration_subquery))
         .filter(
             expiration_date=F("latest_expiration"),
-            latest_expiration__gte=today,
-            latest_expiration__lte=max_expiration_day,
+            latest_expiration__lt=today,
+            latest_expiration__gte=min_expiration_day,
         )
-        .order_by("expiration_date")
+        .order_by("-expiration_date")
     )
 
-    paginator = Paginator(db_licenses_query, DEFAULT_SOON_EXPIRE_PER_PAGE)
+    paginator = Paginator(db_licenses_query, DEFAULT_RECENT_EXPIRE_PER_PAGE)
     page_obj = paginator.get_page(request.GET.get("page"))
 
     callsigns = [
@@ -63,9 +64,9 @@ def soon_expire(request):
 
     return render(
         request,
-        "soon_expire.html",
+        "recent_expire.html",
         {
-            "title": _("Niedługo wygasną"),
+            "title": _("Niedawno wygasły"),
             "days": days,
             "callsigns": callsigns,
             "callsign_count": paginator.count,
